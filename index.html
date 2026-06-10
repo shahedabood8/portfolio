@@ -7,7 +7,82 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 // ===== VIDEO COMPRESSION =====
-async function compressVideo(file, onProgress){
+// ── Fast path: WebCodecs + webm-muxer (Chrome 94+) ──────────────────────────
+// Plays at 16× speed but encodes with real media timestamps → output plays at correct speed.
+// Audio decoded offline (OfflineAudioContext) so no real-time wait for audio either.
+async function compressVideoFast(file, onProgress){
+  const {Muxer, ArrayBufferTarget} = await import('https://cdn.jsdelivr.net/npm/webm-muxer@3.0.4/build/webm-muxer.mjs');
+  return new Promise(async(resolve, reject)=>{
+    let url=null;
+    try{
+      url=URL.createObjectURL(file);
+      const vid=document.createElement('video');
+      vid.src=url; vid.muted=true; vid.preload='auto'; vid.playsInline=true;
+      await new Promise((res,rej)=>{ vid.onloadedmetadata=res; vid.onerror=rej; vid.load(); });
+      let w=vid.videoWidth, h=vid.videoHeight;
+      const MAX=1080;
+      if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.floor(w*r/2)*2;h=Math.floor(h*r/2)*2;}
+      const dur=vid.duration;
+      // Decode audio offline — much faster than real-time
+      let audioBuffer=null;
+      try{
+        const ab=await file.arrayBuffer();
+        const tmpCtx=new AudioContext();
+        audioBuffer=await tmpCtx.decodeAudioData(ab);
+        tmpCtx.close();
+      }catch(e){ /* no audio track */ }
+      // Muxer
+      const target=new ArrayBufferTarget();
+      const muxCfg={target,video:{codec:'V_VP9',width:w,height:h},firstTimestampBehavior:'offset'};
+      if(audioBuffer) muxCfg.audio={codec:'A_OPUS',sampleRate:audioBuffer.sampleRate,numberOfChannels:audioBuffer.numberOfChannels};
+      const muxer=new Muxer(muxCfg);
+      // Video encoder
+      const vEnc=new VideoEncoder({output:(c,m)=>muxer.addVideoChunk(c,m),error:reject});
+      const vCfg={codec:'vp09.00.31.08',width:w,height:h,bitrate:2500000,framerate:30};
+      const sup=await VideoEncoder.isConfigSupported(vCfg).catch(()=>({supported:false}));
+      vEnc.configure(sup.supported?vCfg:{codec:'vp8',width:w,height:h,bitrate:2500000,framerate:30});
+      // Encode all audio (offline — no real-time wait)
+      if(audioBuffer){
+        const aEnc=new AudioEncoder({output:(c,m)=>muxer.addAudioChunk(c,m),error:e=>console.warn('aEnc:',e)});
+        aEnc.configure({codec:'opus',sampleRate:audioBuffer.sampleRate,numberOfChannels:audioBuffer.numberOfChannels,bitrate:128000});
+        const CHUNK=4096, nCh=audioBuffer.numberOfChannels, sr=audioBuffer.sampleRate;
+        for(let i=0;i<audioBuffer.length;i+=CHUNK){
+          const len=Math.min(CHUNK,audioBuffer.length-i);
+          const d=new Float32Array(len*nCh);
+          for(let c=0;c<nCh;c++) d.set(audioBuffer.getChannelData(c).subarray(i,i+len),c*len);
+          const ad=new AudioData({format:'f32-planar',sampleRate:sr,numberOfFrames:len,numberOfChannels:nCh,timestamp:Math.round(i/sr*1e6),data:d});
+          aEnc.encode(ad); ad.close();
+        }
+        await aEnc.flush();
+      }
+      // Video frames at 16× speed, media timestamps preserved → correct playback speed
+      const cnv=document.createElement('canvas'); cnv.width=w; cnv.height=h;
+      const ctx=cnv.getContext('2d');
+      vid.playbackRate=16;
+      let fc=0, lastT=-1;
+      const onFrame=(_,meta)=>{
+        if(Math.abs(meta.mediaTime-lastT)>0.0005){
+          ctx.drawImage(vid,0,0,w,h);
+          const frm=new VideoFrame(cnv,{timestamp:Math.round(meta.mediaTime*1e6)});
+          vEnc.encode(frm,{keyFrame:fc%150===0});
+          frm.close(); lastT=meta.mediaTime; fc++;
+          onProgress&&onProgress(meta.mediaTime/dur);
+        }
+        if(!vid.ended&&!vid.paused) vid.requestVideoFrameCallback(onFrame);
+      };
+      vid.requestVideoFrameCallback(onFrame);
+      vid.onended=async()=>{
+        try{ await vEnc.flush(); muxer.finalize(); URL.revokeObjectURL(url); resolve(new Blob([target.buffer],{type:'video/webm'})); }
+        catch(e){reject(e);}
+      };
+      vid.onerror=reject; vid.currentTime=0;
+      await vid.play().catch(reject);
+    }catch(e){ if(url)URL.revokeObjectURL(url); reject(e); }
+  });
+}
+
+// ── Legacy fallback: MediaRecorder real-time (used if WebCodecs unavailable) ─
+async function compressVideoLegacy(file, onProgress){
   return new Promise((resolve,reject)=>{
     const url=URL.createObjectURL(file);
     const video=document.createElement('video');
@@ -35,28 +110,26 @@ async function compressVideo(file, onProgress){
       const recorder=new MediaRecorder(videoStream,{mimeType,videoBitsPerSecond:2500000});
       const chunks=[];
       recorder.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
-      recorder.onstop=()=>{
-        URL.revokeObjectURL(url);
-        if(audioCtx) audioCtx.close();
-        resolve(new Blob(chunks,{type:recorder.mimeType}));
-      };
+      recorder.onstop=()=>{ URL.revokeObjectURL(url); if(audioCtx)audioCtx.close(); resolve(new Blob(chunks,{type:recorder.mimeType})); };
       recorder.start(250);
       let raf;
-      const draw=()=>{
-        if(video.ended||video.paused)return;
-        ctx.drawImage(video,0,0,w,h);
-        onProgress&&onProgress(video.currentTime/(video.duration||1));
-        raf=requestAnimationFrame(draw);
-      };
+      const draw=()=>{ if(video.ended||video.paused)return; ctx.drawImage(video,0,0,w,h); onProgress&&onProgress(video.currentTime/(video.duration||1)); raf=requestAnimationFrame(draw); };
       video.onplay=()=>{raf=requestAnimationFrame(draw);};
       video.onended=()=>{cancelAnimationFrame(raf);setTimeout(()=>recorder.stop(),300);};
-      video.onerror=reject;
-      video.currentTime=0;
-      video.play().catch(reject);
+      video.onerror=reject; video.currentTime=0; video.play().catch(reject);
     };
-    video.onerror=reject;
-    video.load();
+    video.onerror=reject; video.load();
   });
+}
+
+// ── Main dispatcher ───────────────────────────────────────────────────────────
+async function compressVideo(file, onProgress){
+  // WebCodecs available (Chrome 94+, Edge 94+) → 16× faster
+  if(typeof VideoEncoder!=='undefined'&&typeof AudioEncoder!=='undefined'&&typeof VideoFrame!=='undefined'){
+    try{ return await compressVideoFast(file,onProgress); }
+    catch(e){ console.warn('Fast compression failed, falling back to real-time:',e); }
+  }
+  return compressVideoLegacy(file,onProgress);
 }
 
 function showVidCompressing(labelId,btnId){
