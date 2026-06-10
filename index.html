@@ -20,7 +20,7 @@ async function compressVideoFast(file, onProgress){
       vid.src=url; vid.muted=true; vid.preload='auto'; vid.playsInline=true;
       await new Promise((res,rej)=>{ vid.onloadedmetadata=res; vid.onerror=rej; vid.load(); });
       let w=vid.videoWidth, h=vid.videoHeight;
-      const MAX=1080;
+      const MAX=720;
       if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.floor(w*r/2)*2;h=Math.floor(h*r/2)*2;}
       const dur=vid.duration;
       // Decode audio offline — much faster than real-time
@@ -38,9 +38,9 @@ async function compressVideoFast(file, onProgress){
       const muxer=new Muxer(muxCfg);
       // Video encoder
       const vEnc=new VideoEncoder({output:(c,m)=>muxer.addVideoChunk(c,m),error:reject});
-      const vCfg={codec:'vp09.00.31.08',width:w,height:h,bitrate:2500000,framerate:30};
+      const vCfg={codec:'vp09.00.31.08',width:w,height:h,bitrate:1000000,framerate:30};
       const sup=await VideoEncoder.isConfigSupported(vCfg).catch(()=>({supported:false}));
-      vEnc.configure(sup.supported?vCfg:{codec:'vp8',width:w,height:h,bitrate:2500000,framerate:30});
+      vEnc.configure(sup.supported?vCfg:{codec:'vp8',width:w,height:h,bitrate:1000000,framerate:30});
       // Encode all audio (offline — no real-time wait)
       if(audioBuffer){
         const aEnc=new AudioEncoder({output:(c,m)=>muxer.addAudioChunk(c,m),error:e=>console.warn('aEnc:',e)});
@@ -90,7 +90,7 @@ async function compressVideoLegacy(file, onProgress){
     video.onloadedmetadata=()=>{
       const canvas=document.createElement('canvas');
       let w=video.videoWidth, h=video.videoHeight;
-      const MAX=1080;
+      const MAX=720;
       if(w>MAX||h>MAX){ const r=Math.min(MAX/w,MAX/h); w=Math.floor(w*r/2)*2; h=Math.floor(h*r/2)*2; }
       canvas.width=w; canvas.height=h;
       const ctx=canvas.getContext('2d');
@@ -107,7 +107,7 @@ async function compressVideoLegacy(file, onProgress){
       const mimeType=MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
         ?'video/webm;codecs=vp9,opus':MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
         ?'video/webm;codecs=vp9':'video/webm';
-      const recorder=new MediaRecorder(videoStream,{mimeType,videoBitsPerSecond:2500000});
+      const recorder=new MediaRecorder(videoStream,{mimeType,videoBitsPerSecond:1000000});
       const chunks=[];
       recorder.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
       recorder.onstop=()=>{ URL.revokeObjectURL(url); if(audioCtx)audioCtx.close(); resolve(new Blob(chunks,{type:recorder.mimeType})); };
@@ -120,6 +120,24 @@ async function compressVideoLegacy(file, onProgress){
     };
     video.onerror=reject; video.load();
   });
+}
+
+// ── Blob URL cache: converts data:video/... → object URL so browser streams instantly ─
+const _vidBlobCache=new Map();
+function toVidSrc(dataUrl){
+  if(!dataUrl||!dataUrl.startsWith('data:video')) return dataUrl;
+  const key=dataUrl.length+'|'+dataUrl.slice(-40);
+  if(_vidBlobCache.has(key)) return _vidBlobCache.get(key);
+  try{
+    const mime=dataUrl.split(';')[0].split(':')[1];
+    const b64=dataUrl.split(',')[1];
+    const bin=atob(b64);
+    const u8=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+    const url=URL.createObjectURL(new Blob([u8],{type:mime}));
+    _vidBlobCache.set(key,url);
+    return url;
+  }catch(e){ return dataUrl; }
 }
 
 // ── Main dispatcher ───────────────────────────────────────────────────────────
@@ -1522,7 +1540,7 @@ function makeProjectCard(p,catId){
   let media='';
   const _isVid=p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail));if(_isVid){
     if(p.thumbFrame) media=`<img src="${p.thumbFrame}" alt="${esc(p.title)}">`;
-    else media=`<video src="${p.thumbnail}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>`;
+    else media=`<video src="${toVidSrc(p.thumbnail)}" muted loop playsinline preload="auto" onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>`;
   }
   else if(p.thumbnail) media=`<img src="${p.thumbnail}" alt="${esc(p.title)}">`;
   else if(p.embedUrl){ const ytId=getYtId(p.embedUrl); media=ytId?`<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" alt="${esc(p.title)}" onerror="this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg'" style="width:100%;height:100%;object-fit:cover;">` : `<iframe src="${p.embedUrl}" allowfullscreen></iframe>`; }
@@ -1559,7 +1577,8 @@ function openDetail(projId,catId){
   const main=document.getElementById('dm-main'); main.innerHTML='';
   if(p.embedUrl){ const ytId=getYtId(p.embedUrl); if(ytId){ const portrait=!!p.embedPortrait; const ratio=portrait?'9/16':'16/9'; const embedSrc=`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&cc_load_policy=0&playsinline=1&color=white`; main.innerHTML=`<div class="dm-yt-wrap" style="aspect-ratio:${ratio};max-height:520px;${portrait?'max-width:300px;':'width:100%;'}margin:auto"><iframe src="${embedSrc}" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe></div>`; } else { main.innerHTML=`<iframe src="${p.embedUrl}" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;min-height:300px;border:0"></iframe>`; } }
   else if(p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail))){
-    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔊</button></div>`;
+    const _vs=toVidSrc(p.thumbnail);
+    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${_vs}" autoplay loop playsinline controls preload="auto"></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔊</button></div>`;
     // Browser allows unmuted autoplay after user interaction (card click)
     setTimeout(()=>{ const v=document.getElementById('dm-vid'); if(v){ v.muted=false; v.play().catch(()=>{ v.muted=true; const b=document.getElementById('dm-vid-sound'); if(b) b.textContent='🔇'; }); } }, 50);
     // start playing
@@ -1609,7 +1628,7 @@ function openEditProject(id,catId){
   if(p.embedUrl){ setV('pm-url',p.embedUrl); const pcb=document.getElementById('pm-portrait'); if(pcb) pcb.checked=!!p.embedPortrait; switchTab('url'); previewYtUrl(p.embedUrl); }
   else if(p.thumbnail){
     if(p.thumbnail.startsWith('data:video')){
-      const v=document.getElementById('pm-prev-vid'); v.src=p.thumbnail; v.style.display='block'; v.load();
+      const v=document.getElementById('pm-prev-vid'); v.src=toVidSrc(p.thumbnail); v.style.display='block'; v.load();
       v.onloadedmetadata=()=>{
         const sc=document.getElementById('frame-scrubber'); sc.max=v.duration||100; sc.value=0;
         document.getElementById('frame-picker').style.display='block';
