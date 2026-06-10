@@ -861,6 +861,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
     </div>
     <div class="mact">
       <button class="mbtn sec" onclick="closeModal('proj-modal')">Cancel</button>
+      <p id="pm-err" style="display:none;color:#ef4444;font-size:.8rem;margin:0 auto 0 0;align-self:center"></p>
       <button class="mbtn" onclick="saveProject()">Save Project</button>
     </div>
   </div>
@@ -1485,7 +1486,7 @@ function openAddProject(catId){
   if(!admin) return;
   editProjCat=catId; editProjId=''; thumbB64=''; thumbFrameB64=''; galleryB64=[];
   clearProjForm(); document.getElementById('pm-hd').textContent='Add Project';
-  switchTab('file'); openModal('proj-modal');
+  hidePmErr(); switchTab('file'); openModal('proj-modal');
 }
 function openEditProject(id,catId){
   if(!admin) return; editProjCat=catId; editProjId=id;
@@ -1535,15 +1536,25 @@ function clearProjForm(){
   document.getElementById('model3d-info').style.display='none';
   document.getElementById('model3d-clear').style.display='none';
 }
+function showPmErr(msg){ const e=document.getElementById('pm-err'); if(e){e.textContent=msg; e.style.display='block';} }
+function hidePmErr(){ const e=document.getElementById('pm-err'); if(e) e.style.display='none'; }
 function saveProject(){
-  const title=gv('pm-title').trim(); if(!title){ alert('Please enter a title.'); return; }
-  const tags=gv('pm-tags').split(',').map(s=>s.trim()).filter(Boolean);
-  const rawUrl=gv('pm-url').trim(); const ytId=getYtId(rawUrl); const resolvedEmbed=ytId?'https://www.youtube.com/embed/'+ytId:rawUrl;
-  const p={id:editProjId||'p'+Date.now(),title,desc:gv('pm-desc').trim(),tags,thumbnail:thumbB64,thumbFrame:thumbFrameB64||null,embedUrl:resolvedEmbed,gallery:[...galleryB64],model3d:model3dB64||null,model3dName:model3dName||null};
-  const cat=data.categories.find(c=>c.id===editProjCat); if(!cat) return;
-  if(editProjId){ const i=cat.projects.findIndex(x=>x.id===editProjId); if(i>-1) cat.projects[i]=p; else cat.projects.push(p); }
-  else cat.projects.push(p);
-  persist(); renderProjectGrid(editProjCat); closeModal('proj-modal');
+  try {
+    hidePmErr();
+    const title=gv('pm-title').trim();
+    if(!title){ showPmErr('⚠ Please enter a project title.'); document.getElementById('pm-title').focus(); return; }
+    const tags=gv('pm-tags').split(',').map(s=>s.trim()).filter(Boolean);
+    const rawUrl=gv('pm-url').trim(); const ytId=getYtId(rawUrl); const resolvedEmbed=ytId?'https://www.youtube.com/embed/'+ytId:rawUrl;
+    const p={id:editProjId||'p'+Date.now(),title,desc:gv('pm-desc').trim(),tags,thumbnail:thumbB64,thumbFrame:thumbFrameB64||null,embedUrl:resolvedEmbed,gallery:[...galleryB64],model3d:model3dB64||null,model3dName:model3dName||null};
+    const cat=data.categories.find(c=>c.id===editProjCat);
+    if(!cat){ showPmErr('⚠ Error: category not found. Please close and try again.'); return; }
+    if(editProjId){ const i=cat.projects.findIndex(x=>x.id===editProjId); if(i>-1) cat.projects[i]=p; else cat.projects.push(p); }
+    else cat.projects.push(p);
+    persist(); renderProjectGrid(editProjCat); closeModal('proj-modal');
+  } catch(err) {
+    showPmErr('⚠ Error: ' + err.message);
+    console.error('saveProject error:', err);
+  }
 }
 function handleModel3d(input){
   if(!input.files[0]) return;
