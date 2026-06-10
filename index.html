@@ -465,12 +465,12 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 
 <!-- ADMIN BANNER -->
 <div id="adminbanner">
-  <span>â�“ Admin Mode</span>
-  <button onclick="saveAll()">ðŸ’¾ Save All</button>
-  <button class="teal" onclick="exportData()">â¬‡ Export Backup</button>
-  <button class="teal" onclick="document.getElementById('import-in').click()">â¬† Import Backup</button>
+  <span>✏ Admin Mode</span>
+  <button onclick="saveAll()">💾 Save All</button>
+  <button class="teal" onclick="exportData()">⬇ Export Backup</button>
+  <button class="teal" onclick="document.getElementById('import-in').click()">⬆ Import Backup</button>
   <input type="file" id="import-in" accept=".json" style="display:none" onchange="importData(this)">
-  <button onclick="logoutAdmin()">â�“• Exit</button>
+  <button onclick="logoutAdmin()">✕ Exit</button>
 </div>
 
 <!-- HERO -->
@@ -556,14 +556,14 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <!-- hidden placeholder for About -->
   <div class="sec-hidden-placeholder" id="ph-about">
     <span>About Me section is hidden</span>
-    <button class="sec-show-btn" onclick="showSection('about')">ðŸ‘ Show</button>
+    <button class="sec-show-btn" onclick="showSection('about')">👁 Show</button>
   </div>
 
   <!-- ABOUT -->
   <div id="about" class="sec-alt">
   <div class="sec-admin-bar">
     <span style="font-size:.72rem;color:var(--muted)">About Me section</span>
-    <button class="sec-hide-btn" onclick="hideSection('about')">ðŸ™ˆ Hide Section</button>
+    <button class="sec-hide-btn" onclick="hideSection('about')">🙈 Hide Section</button>
   </div>
   <section class="sec">
     <h2 class="st fade-up" id="about-heading" contenteditable="false">About Me</h2>
@@ -592,14 +592,14 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <!-- hidden placeholder for Certs -->
   <div class="sec-hidden-placeholder" id="ph-certs3d">
     <span>Certificates section is hidden</span>
-    <button class="sec-show-btn" onclick="showSection('certs3d')">ðŸ‘ Show</button>
+    <button class="sec-show-btn" onclick="showSection('certs3d')">👁 Show</button>
   </div>
 
   <!-- CERTS 3D -->
   <div id="certs3d" class="sec-alt">
   <div class="sec-admin-bar">
     <span style="font-size:.72rem;color:var(--muted)">Certificates section</span>
-    <button class="sec-hide-btn" onclick="hideSection('certs3d')">ðŸ™ˆ Hide Section</button>
+    <button class="sec-hide-btn" onclick="hideSection('certs3d')">🙈 Hide Section</button>
   </div>
   <section class="sec">
     <h2 class="st fade-up" id="certs3d-heading" contenteditable="false">Certificates</h2>
@@ -616,7 +616,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <!-- hidden placeholder for Tech -->
   <div class="sec-hidden-placeholder" id="ph-tech">
     <span>Tech Background section is hidden</span>
-    <button class="sec-show-btn" onclick="showSection('tech')">ðŸ‘ Show</button>
+    <button class="sec-show-btn" onclick="showSection('tech')">👁 Show</button>
   </div>
 
   <!-- TECH DIVIDER -->
@@ -630,20 +630,20 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <div id="tech" class="sec-alt">
   <div class="sec-admin-bar">
     <span style="font-size:.72rem;color:var(--muted)">Tech Background section</span>
-    <button class="sec-hide-btn" onclick="hideSection('tech')">ðŸ™ˆ Hide Section</button>
+    <button class="sec-hide-btn" onclick="hideSection('tech')">🙈 Hide Section</button>
   </div>
   <section class="sec">
     <div class="ta-g fade-up">
       <div class="pbox" style="aspect-ratio:3/4" onclick="adminOnly(()=>document.getElementById('grad-ph-in').click())">
         <img id="grad-img" src="" alt="">
         <span id="grad-lbl">Graduation Photo</span>
-        <div class="pbox-ov"><span>ðŸŽ“</span><span>Change Photo</span></div>
+        <div class="pbox-ov"><span>🎓</span><span>Change Photo</span></div>
       </div>
       <input type="file" id="grad-ph-in" accept="image/*" style="display:none" onchange="handlePh(this,'grad-img','grad-lbl','tech.gradPhoto')">
       <div>
         <h2 class="st" id="tech-about-heading" contenteditable="false">About Me</h2>
         <p class="sub" id="tech-about-sub" style="margin-bottom:1.25rem" contenteditable="false">Computer Science Graduate · AUIB 2025</p>
-        <p class="bio" id="tech-bio" contenteditable="false">Computer Science Graduate from the American University of Iraq â€“ Baghdad (AUIB, December 2025), proficient in Python for automation and scripting, with academic and practical project experience across C++, C#, and Dart. Experienced in collaborating with multidisciplinary, fast-paced teams and applying technical skills to optimize workflows and solve logic problems. Fluent in English and Arabic (Levantine and Iraqi dialects).</p>
+        <p class="bio" id="tech-bio" contenteditable="false">Computer Science Graduate from the American University of Iraq – Baghdad (AUIB, December 2025), proficient in Python for automation and scripting, with academic and practical project experience across C++, C#, and Dart. Experienced in collaborating with multidisciplinary, fast-paced teams and applying technical skills to optimize workflows and solve logic problems. Fluent in English and Arabic (Levantine and Iraqi dialects).</p>
         <div class="tags" id="tags-tech" style="margin-top:1.25rem"></div>
       </div>
     </div>
@@ -673,7 +673,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           <a id="c-email-link" href="#"><span class="cedit" id="c-email" contenteditable="false">shahedabood8@gmail.com</span></a>
         </div>
-        <button class="cf-toggle" onclick="toggleContactField('email')" title="Hide/Show">ðŸ‘</button>
+        <button class="cf-toggle" onclick="toggleContactField('email')" title="Hide/Show">👁</button>
         <span class="cf-hidden-label" id="cf-lbl-email" onclick="toggleContactField('email')">email hidden �” click to show</span>
       </div>
       <div class="cf-wrap" id="cf-wrap-phone">
@@ -681,12 +681,12 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           <span class="cedit" id="c-phone" contenteditable="false">+971 52 258 2135</span>
         </div>
-        <button class="cf-toggle" onclick="toggleContactField('phone')" title="Hide/Show">ðŸ‘</button>
+        <button class="cf-toggle" onclick="toggleContactField('phone')" title="Hide/Show">👁</button>
         <span class="cf-hidden-label" id="cf-lbl-phone" onclick="toggleContactField('phone')">phone hidden �” click to show</span>
       </div>
       <div class="cf-wrap" id="cf-wrap-note" style="align-items:flex-start">
         <p class="contact-note cedit" id="c-note" contenteditable="false">Open to freelance projects, collaborations, and full-time opportunities in 3D Art, Motion Design, and IT Automation.</p>
-        <button class="cf-toggle" onclick="toggleContactField('note')" title="Hide/Show">ðŸ‘</button>
+        <button class="cf-toggle" onclick="toggleContactField('note')" title="Hide/Show">👁</button>
         <span class="cf-hidden-label" id="cf-lbl-note" onclick="toggleContactField('note')">note hidden �” click to show</span>
       </div>
     </div>
@@ -699,7 +699,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <a id="footer-email" href="#" style="color:var(--acc2);text-decoration:none">shahedabood8@gmail.com</a>
 </footer>
 
-<button id="at" onclick="toggleAdmin()" title="Admin">âš™</button>
+<button id="at" onclick="toggleAdmin()" title="Admin">⚙</button>
 
 <!-- ===== MODALS ===== -->
 
@@ -719,7 +719,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- ADD/EDIT PROJECT -->
 <div class="ov" id="proj-modal">
   <div class="mb xwide">
-    <div class="mh"><span id="pm-hd">Add Project</span><button class="mclose" onclick="closeModal('proj-modal')">â�“•</button></div>
+    <div class="mh"><span id="pm-hd">Add Project</span><button class="mclose" onclick="closeModal('proj-modal')">✕</button></div>
     <div class="frow">
       <div class="fg" style="flex:2">
         <label class="fl">Project Title *</label>
@@ -744,15 +744,15 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
         <div class="ua"><span>Click to upload image or video</span><input type="file" id="pm-file" accept="image/*,video/*" onchange="handleProjThumb(this)"></div>
         <img id="pm-prev-img" class="ua-prev" alt="">
         <video id="pm-prev-vid" class="ua-prev" muted controls playsinline></video>
-        <button id="pm-thumb-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearThumb()">â�“• Remove media</button>
+        <button id="pm-thumb-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearThumb()">✕ Remove media</button>
         <!-- Frame picker (shown only for videos) -->
         <div id="frame-picker" style="display:none;margin-top:.85rem;padding:.75rem;border:1px dashed rgba(139,92,246,.35);border-radius:var(--r);background:rgba(139,92,246,.04)">
-          <div style="font-size:.75rem;color:var(--acc);font-weight:600;margin-bottom:.5rem">ðŸ“¸ Pick a thumbnail frame</div>
+          <div style="font-size:.75rem;color:var(--acc);font-weight:600;margin-bottom:.5rem">📸 Pick a thumbnail frame</div>
           <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem">Scrub the video to any moment, then capture it as the card thumbnail.</div>
           <input type="range" id="frame-scrubber" min="0" max="100" value="0" step="0.1" style="width:100%;accent-color:var(--acc);cursor:pointer;margin-bottom:.55rem" oninput="scrubVideo(this.value)">
           <div style="display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
-            <button onclick="captureFrame()" style="background:var(--acc);border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:600;padding:.4rem .85rem;cursor:pointer;font-family:inherit">ðŸ“¸ Capture this frame</button>
-            <button id="frame-clear-btn" onclick="clearFrame()" style="display:none;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:8px;font-size:.78rem;padding:.4rem .75rem;cursor:pointer;font-family:inherit">â�“• Remove frame</button>
+            <button onclick="captureFrame()" style="background:var(--acc);border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:600;padding:.4rem .85rem;cursor:pointer;font-family:inherit">📸 Capture this frame</button>
+            <button id="frame-clear-btn" onclick="clearFrame()" style="display:none;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:8px;font-size:.78rem;padding:.4rem .75rem;cursor:pointer;font-family:inherit">✕ Remove frame</button>
             <span id="frame-status" style="font-size:.72rem;color:var(--muted)"></span>
           </div>
           <canvas id="frame-canvas" style="display:none"></canvas>
@@ -760,7 +760,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
         </div>
       </div>
       <div id="url-area" style="display:none">
-        <input class="fi" id="pm-url" placeholder="YouTube embed URL (Share â†’ Embed â†’ copy src=...)" style="margin:0">
+        <input class="fi" id="pm-url" placeholder="YouTube embed URL (Share → Embed → copy src=...)" style="margin:0">
       </div>
     </div>
     <div class="fg" style="margin-top:.85rem">
@@ -775,7 +775,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
         <input type="file" id="pm-model3d" accept=".glb,.stl" style="display:none" onchange="handleModel3d(this)">
       </div>
       <div id="model3d-info" style="display:none;font-size:.75rem;color:var(--acc2);margin-top:.4rem"></div>
-      <button id="model3d-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearModel3d()">â�“• Remove model</button>
+      <button id="model3d-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearModel3d()">✕ Remove model</button>
     </div>
     <div class="mact">
       <button class="mbtn sec" onclick="closeModal('proj-modal')">Cancel</button>
@@ -787,7 +787,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- PROJECT DETAIL -->
 <div class="ov" id="detail-modal">
   <div class="mb xwide" style="padding:0;position:relative">
-    <button class="dm-close" onclick="closeModal('detail-modal')">â�“•</button>
+    <button class="dm-close" onclick="closeModal('detail-modal')">✕</button>
     <div class="dm-layout">
       <div class="dm-media">
         <div class="dm-main" id="dm-main" onclick="dmMainClick()"></div>
@@ -798,8 +798,8 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
         <div class="dm-title" id="dm-title"></div>
         <div class="dm-desc" id="dm-desc"></div>
         <div class="dm-tags" id="dm-tags"></div>
-        <button id="dm-model-btn" onclick="openModelViewer()" style="display:none;margin-top:.75rem;padding:.65rem 1.2rem;border:1px solid rgba(20,184,166,.5);border-radius:10px;background:rgba(20,184,166,.08);color:var(--acc2);font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s;width:100%">ðŸ§Š View 3D Model</button>
-        <button class="dm-edit-btn" onclick="editFromDetail()">â�“ Edit Project</button>
+        <button id="dm-model-btn" onclick="openModelViewer()" style="display:none;margin-top:.75rem;padding:.65rem 1.2rem;border:1px solid rgba(20,184,166,.5);border-radius:10px;background:rgba(20,184,166,.08);color:var(--acc2);font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s;width:100%">🧊 View 3D Model</button>
+        <button class="dm-edit-btn" onclick="editFromDetail()">✏ Edit Project</button>
       </div>
     </div>
   </div>
@@ -808,7 +808,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- ADD/EDIT CERT -->
 <div class="ov" id="cert-modal">
   <div class="mb wide">
-    <div class="mh"><span id="cm-hd">Add Certificate</span><button class="mclose" onclick="closeModal('cert-modal')">â�“•</button></div>
+    <div class="mh"><span id="cm-hd">Add Certificate</span><button class="mclose" onclick="closeModal('cert-modal')">✕</button></div>
     <label class="fl">Certificate Name *</label>
     <input class="fi" id="cm-name" placeholder="e.g. 3D Product Modeling & Animation">
     <div class="frow">
@@ -829,7 +829,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
       </div>
       <img id="cm-prev-img" class="ua-prev" alt="">
       <canvas id="cm-prev-canvas" class="ua-prev-canvas"></canvas>
-      <button id="cm-file-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearCertFile()">â�“• Remove file</button>
+      <button id="cm-file-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearCertFile()">✕ Remove file</button>
     </div>
     <div class="mact">
       <button class="mbtn sec" onclick="closeModal('cert-modal')">Cancel</button>
@@ -841,7 +841,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- ADD/EDIT TECH PROJECT -->
 <div class="ov" id="tp-modal">
   <div class="mb xwide">
-    <div class="mh"><span id="tpm-hd">Add Tech Project</span><button class="mclose" onclick="closeModal('tp-modal')">â�“•</button></div>
+    <div class="mh"><span id="tpm-hd">Add Tech Project</span><button class="mclose" onclick="closeModal('tp-modal')">✕</button></div>
     <label class="fl">Project Title *</label>
     <input class="fi" id="tpm-title" placeholder="e.g. File Organizer Script">
     <label class="fl">Description</label>
@@ -851,21 +851,21 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
     <label class="fl">Project Image (optional)</label>
     <div class="ua"><span>Upload a screenshot or image</span><input type="file" id="tpm-img" accept="image/*" onchange="handleTpImg(this)"></div>
     <img id="tpm-prev" class="ua-prev" alt="">
-    <button id="tpm-img-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearTpImg()">â�“• Remove image</button>
+    <button id="tpm-img-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearTpImg()">✕ Remove image</button>
     <!-- Recording -->
     <div style="margin-top:.85rem;padding:.85rem;border:1px dashed rgba(139,92,246,.3);border-radius:var(--r);background:rgba(139,92,246,.04)">
       <label class="fl" style="color:var(--acc)">Project Recording �” optional (mp4, webm, mov)</label>
       <div style="font-size:.72rem;color:var(--muted);margin-bottom:.5rem">A screen recording or demo of the project running.</div>
       <div class="ua" id="tpm-rec-ua"><span id="tpm-rec-lbl">Upload recording</span><input type="file" id="tpm-rec-file" accept="video/*" style="opacity:0;position:absolute;inset:0;cursor:pointer;width:100%;height:100%" onchange="handleTpRecording(this)"></div>
       <video id="tpm-rec-prev" style="display:none;max-width:100%;max-height:60vh;width:auto;height:auto;border-radius:6px;margin-top:.5rem" muted controls playsinline></video>
-      <button id="tpm-rec-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearTpRecording()">â�“• Remove recording</button>
+      <button id="tpm-rec-clear" style="display:none;margin-top:.4rem;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:6px;padding:.2rem .6rem;font-size:.72rem;cursor:pointer" onclick="clearTpRecording()">✕ Remove recording</button>
       <!-- Frame picker -->
       <div id="tp-frame-picker" style="display:none;margin-top:.75rem;padding:.65rem;border:1px dashed rgba(139,92,246,.3);border-radius:8px;background:rgba(139,92,246,.04)">
-        <div style="font-size:.75rem;color:var(--acc);font-weight:600;margin-bottom:.35rem">ðŸ“¸ Pick a thumbnail frame from the recording</div>
+        <div style="font-size:.75rem;color:var(--acc);font-weight:600;margin-bottom:.35rem">📸 Pick a thumbnail frame from the recording</div>
         <input type="range" id="tp-frame-scrubber" min="0" max="100" value="0" step="0.1" style="width:100%;accent-color:var(--acc);cursor:pointer;margin-bottom:.5rem" oninput="scrubTpVideo(this.value)">
         <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <button onclick="captureTpFrame()" style="background:var(--acc);border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:600;padding:.4rem .85rem;cursor:pointer;font-family:inherit">ðŸ“¸ Capture this frame</button>
-          <button id="tp-frame-clear-btn" onclick="clearTpFrame()" style="display:none;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:8px;font-size:.78rem;padding:.4rem .75rem;cursor:pointer;font-family:inherit">â�“• Remove frame</button>
+          <button onclick="captureTpFrame()" style="background:var(--acc);border:none;border-radius:8px;color:#fff;font-size:.78rem;font-weight:600;padding:.4rem .85rem;cursor:pointer;font-family:inherit">📸 Capture this frame</button>
+          <button id="tp-frame-clear-btn" onclick="clearTpFrame()" style="display:none;background:transparent;border:1px solid rgba(239,68,68,.4);color:#ef4444;border-radius:8px;font-size:.78rem;padding:.4rem .75rem;cursor:pointer;font-family:inherit">✕ Remove frame</button>
           <span id="tp-frame-status" style="font-size:.72rem;color:var(--muted)"></span>
         </div>
         <canvas id="tp-frame-canvas" style="display:none"></canvas>
@@ -887,12 +887,12 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- TECH PROJECT DETAIL -->
 <div class="ov" id="tp-detail">
   <div class="mb xwide" style="padding:0;position:relative">
-    <button class="dm-close" onclick="closeModal('tp-detail')">â�“•</button>
+    <button class="dm-close" onclick="closeModal('tp-detail')">✕</button>
     <div class="tpd-layout">
       <div class="tpd-media">
         <div class="tpd-rec" id="tpd-rec" style="display:none">
           <video id="tpd-rec-vid" autoplay muted loop playsinline controls></video>
-          <button class="tpd-rec-sound" id="tpd-rec-sound" title="Toggle sound" onclick="toggleTpdSound()">ðŸ”‡</button>
+          <button class="tpd-rec-sound" id="tpd-rec-sound" title="Toggle sound" onclick="toggleTpdSound()">🔇</button>
         </div>
         <div class="tpd-img" id="tpd-img" onclick="if(currentTpDetail&&currentTpDetail.img)openLb(currentTpDetail.img)"></div>
       </div>
@@ -904,7 +904,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
           View on GitHub
         </a>
         <div id="tpd-skills"></div>
-        <button class="tpd-edit-btn" onclick="editFromTpDetail()">â�“ Edit Project</button>
+        <button class="tpd-edit-btn" onclick="editFromTpDetail()">✏ Edit Project</button>
       </div>
     </div>
   </div>
@@ -913,7 +913,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <!-- ADD SECTION -->
 <div class="ov" id="section-modal">
   <div class="mb" style="max-width:400px">
-    <div class="mh"><span>Add Portfolio Section</span><button class="mclose" onclick="closeModal('section-modal')">â�“•</button></div>
+    <div class="mh"><span>Add Portfolio Section</span><button class="mclose" onclick="closeModal('section-modal')">✕</button></div>
     <label class="fl">Section Title *</label>
     <input class="fi" id="sec-title" placeholder="e.g. Motion Graphics">
     <label class="fl">Subtitle</label>
@@ -927,18 +927,18 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 
 <!-- CERT VIEWER (image or PDF) -->
 <div id="cert-viewer" onclick="closeCertViewer()">
-  <button id="cv-x" onclick="closeCertViewer()">â�“•</button>
-  <a id="cv-open" href="#" target="_blank" onclick="event.stopPropagation()">â¬‡ Download PDF</a>
+  <button id="cv-x" onclick="closeCertViewer()">✕</button>
+  <a id="cv-open" href="#" target="_blank" onclick="event.stopPropagation()">⬇ Download PDF</a>
   <img id="cv-img" src="" alt="" style="display:none" onclick="event.stopPropagation()">
   <div id="cv-pdf-wrap" style="display:none;overflow-y:auto;max-height:88vh;padding:.5rem;display:none" onclick="event.stopPropagation()">
     <div id="cv-pdf-pages" style="display:flex;flex-direction:column;gap:.75rem;align-items:center"></div>
-    <div id="cv-pdf-loading" style="color:#fff;font-size:.9rem;padding:2rem">Loading PDFâ€¦</div>
+    <div id="cv-pdf-loading" style="color:#fff;font-size:.9rem;padding:2rem">Loading PDF…</div>
   </div>
 </div>
 
 <!-- 3D MODEL VIEWER -->
 <div id="model-viewer-ov" onclick="closeModelViewer()" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.92);align-items:center;justify-content:center;flex-direction:column;gap:1rem">
-  <button onclick="closeModelViewer()" style="position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:1rem;cursor:pointer;z-index:1">â�“•</button>
+  <button onclick="closeModelViewer()" style="position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:1rem;cursor:pointer;z-index:1">✕</button>
   <div id="model-viewer-title" style="color:var(--text);font-size:1rem;font-weight:600;opacity:.8"></div>
   <div id="model-viewer-wrap" onclick="event.stopPropagation()" style="width:min(90vw,700px);height:min(75vh,500px);border-radius:12px;overflow:hidden;background:#0a0a12;border:1px solid var(--brd)"></div>
   <div style="font-size:.72rem;color:var(--muted);opacity:.6">Drag to rotate · Scroll to zoom</div>
@@ -946,7 +946,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 
 <!-- LIGHTBOX -->
 <div id="lb" onclick="closeLb()">
-  <button id="lb-x" onclick="closeLb()">â�“•</button>
+  <button id="lb-x" onclick="closeLb()">✕</button>
   <img id="lb-img" src="" alt="" style="display:none">
   <video id="lb-vid" controls style="display:none" onclick="event.stopPropagation()"></video>
 </div>
@@ -994,7 +994,7 @@ function defaultData(){
     ],
     tech:{
       gradPhoto:null,
-      bio:'Computer Science Graduate from the American University of Iraq â€“ Baghdad (AUIB, December 2025), proficient in Python for automation and scripting, with academic and practical project experience across C++, C#, and Dart. Experienced in collaborating with multidisciplinary, fast-paced teams and applying technical skills to optimize workflows and solve logic problems. Fluent in English and Arabic (Levantine and Iraqi dialects).',
+      bio:'Computer Science Graduate from the American University of Iraq – Baghdad (AUIB, December 2025), proficient in Python for automation and scripting, with academic and practical project experience across C++, C#, and Dart. Experienced in collaborating with multidisciplinary, fast-paced teams and applying technical skills to optimize workflows and solve logic problems. Fluent in English and Arabic (Levantine and Iraqi dialects).',
       tags:['Python','C++','C#','Dart / Flutter','OOP & Data Structures','Algorithms','Git / GitHub','Linux / Ubuntu','IT Automation','Pytest'],
       projects:[],
       certs:[
@@ -1121,7 +1121,7 @@ function renderStatItems(){
     const div=document.createElement('div'); div.className='stat-item fade-up'; div.id='stat-'+s.id;
     div.style.transitionDelay=(i*.07)+'s';
     div.innerHTML=`
-      <button class="stat-del" onclick="event.stopPropagation();deleteStat('${s.id}')">â�“•</button>
+      <button class="stat-del" onclick="event.stopPropagation();deleteStat('${s.id}')">✕</button>
       <div class="stat-val edtitle" id="sv-${s.id}" contenteditable="false">${esc(s.value)}</div>
       <div class="stat-lbl edtitle" id="sl-${s.id}" contenteditable="false">${esc(s.label)}</div>`;
     bar.appendChild(div);
@@ -1281,7 +1281,7 @@ function renderCategories(){
           <p class="sub edtitle" id="cat-sub-${cat.id}" contenteditable="false" onblur="saveCatSub('${cat.id}',this)">${esc(cat.sub)}</p>
         </div>
         <div style="display:flex;align-items:center;gap:.75rem;flex-shrink:0">
-          <button class="sec-del-btn" onclick="event.stopPropagation();deleteCategory('${cat.id}')">â�“• Remove</button>
+          <button class="sec-del-btn" onclick="event.stopPropagation();deleteCategory('${cat.id}')">✕ Remove</button>
           <span class="cat-chevron" id="chev-${cat.id}">&#8964;</span>
         </div>
       </div>
@@ -1335,7 +1335,7 @@ function makeProjectCard(p,catId){
   const ph=`<div class="pt-ph"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>No media yet</span></div>`;
   const tagsHtml=(p.tags||[]).map(t=>`<span class="ptag">${esc(t)}</span>`).join('');
   card.innerHTML=`
-    <div class="drag-handle" title="Drag to reorder" onmousedown="event.stopPropagation()">â ¿</div>
+    <div class="drag-handle" title="Drag to reorder" onmousedown="event.stopPropagation()">⠿</div>
     <div class="pt">${media||ph}
       <div class="pt-ov"><svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="1.5"/><polygon points="10,8 16,12 10,16" fill="#fff"/></svg></div>
     </div>
@@ -1345,8 +1345,8 @@ function makeProjectCard(p,catId){
       <div class="ptags">${tagsHtml}</div>
     </div>
     <div class="card-btns">
-      <button class="bs" onclick="event.stopPropagation();openEditProject('${p.id}','${catId}')">â�“ Edit</button>
-      <button class="bs del" onclick="event.stopPropagation();deleteProject('${p.id}','${catId}')">â�“• Delete</button>
+      <button class="bs" onclick="event.stopPropagation();openEditProject('${p.id}','${catId}')">✏ Edit</button>
+      <button class="bs del" onclick="event.stopPropagation();deleteProject('${p.id}','${catId}')">✕ Delete</button>
     </div>`;
   card.onclick=()=>openDetail(p.id,catId);
   initCardDrag(card, p.id, 'proj', catId);
@@ -1365,7 +1365,7 @@ function openDetail(projId,catId){
   const main=document.getElementById('dm-main'); main.innerHTML='';
   if(p.embedUrl) main.innerHTML=`<iframe src="${p.embedUrl}" allowfullscreen></iframe>`;
   else if(p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail))){
-    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay muted loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">ðŸ”‡</button></div>`;
+    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay muted loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔇</button></div>`;
     // start playing
     const v=document.getElementById('dm-vid'); if(v) v.play().catch(()=>{});
   }
@@ -1387,7 +1387,7 @@ function openDetail(projId,catId){
 }
 function toggleDmVidSound(){
   const v=document.getElementById('dm-vid'); const btn=document.getElementById('dm-vid-sound');
-  if(!v) return; v.muted=!v.muted; btn.textContent=v.muted?'ðŸ”‡':'ðŸ”Š';
+  if(!v) return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊';
 }
 function dmMainClick(){
   const main=document.getElementById('dm-main');
@@ -1421,7 +1421,7 @@ function openEditProject(id,catId){
       if(p.thumbFrame){
         const prev=document.getElementById('frame-preview'); prev.src=p.thumbFrame; prev.style.display='block';
         document.getElementById('frame-clear-btn').style.display='inline-block';
-        document.getElementById('frame-status').textContent='â�““ Frame captured �” this will show as the card thumbnail';
+        document.getElementById('frame-status').textContent='✓ Frame captured �” this will show as the card thumbnail';
       }
     }
     else { const img=document.getElementById('pm-prev-img'); img.src=p.thumbnail; img.style.display='block'; }
@@ -1432,7 +1432,7 @@ function openEditProject(id,catId){
   // restore model3d
   model3dB64=p.model3d||''; model3dName=p.model3dName||'';
   if(p.model3dName){
-    document.getElementById('model3d-lbl').textContent='â�““ '+p.model3dName;
+    document.getElementById('model3d-lbl').textContent='✓ '+p.model3dName;
     document.getElementById('model3d-info').textContent=(p.model3d?(p.model3d.length*0.75/1024/1024).toFixed(1)+'MB · ':'') + p.model3dName.split('.').pop().toUpperCase()+' format';
     document.getElementById('model3d-info').style.display='block';
     document.getElementById('model3d-clear').style.display='block';
@@ -1468,7 +1468,7 @@ function handleModel3d(input){
   model3dName=f.name;
   toB64(f,b64=>{
     model3dB64=b64;
-    document.getElementById('model3d-lbl').textContent='â�““ '+f.name;
+    document.getElementById('model3d-lbl').textContent='✓ '+f.name;
     const info=document.getElementById('model3d-info');
     info.textContent=mb+'MB · '+f.name.split('.').pop().toUpperCase()+' format'; info.style.display='block';
     document.getElementById('model3d-clear').style.display='block';
@@ -1598,7 +1598,7 @@ function captureFrame(){
   thumbFrameB64=canvas.toDataURL('image/jpeg',0.92);
   const prev=document.getElementById('frame-preview'); prev.src=thumbFrameB64; prev.style.display='block';
   document.getElementById('frame-clear-btn').style.display='inline-block';
-  document.getElementById('frame-status').textContent='â�““ Frame captured �” this will show as the card thumbnail';
+  document.getElementById('frame-status').textContent='✓ Frame captured �” this will show as the card thumbnail';
 }
 function clearFrame(){
   thumbFrameB64='';
@@ -1620,7 +1620,7 @@ function handleGallery(input){
 }
 function renderGalleryPreview(){
   const gp=document.getElementById('gallery-preview'); gp.innerHTML='';
-  galleryB64.forEach((b64,i)=>{ const d=document.createElement('div'); d.className='gal-thumb'; d.innerHTML=`<img src="${b64}"><button class="gal-rm" onclick="removeGalleryImg(${i})">â�“•</button>`; gp.appendChild(d); });
+  galleryB64.forEach((b64,i)=>{ const d=document.createElement('div'); d.className='gal-thumb'; d.innerHTML=`<img src="${b64}"><button class="gal-rm" onclick="removeGalleryImg(${i})">✕</button>`; gp.appendChild(d); });
 }
 function removeGalleryImg(i){ galleryB64.splice(i,1); renderGalleryPreview(); }
 function switchTab(tab){
@@ -1671,8 +1671,8 @@ function makeCertCard(c,type){
       ${c.status?`<div class="cstat">${esc(c.status)}</div>`:''}
     </div>
     <div class="cert-btns">
-      <button class="bs" onclick="event.stopPropagation();openEditCert('${c.id}','${type}')">â�“ Edit</button>
-      <button class="bs del" onclick="event.stopPropagation();deleteCert('${c.id}','${type}')">â�“•</button>
+      <button class="bs" onclick="event.stopPropagation();openEditCert('${c.id}','${type}')">✏ Edit</button>
+      <button class="bs del" onclick="event.stopPropagation();deleteCert('${c.id}','${type}')">✕</button>
     </div>`;
   card.onclick=()=>{ if(c.pdf) openCertViewer(c.pdf, false); else if(c.img) openCertViewer(c.img, true); };
   return card;
@@ -1690,7 +1690,7 @@ async function openCertViewer(src, isImage){
   if(isImage){
     img.src=src; img.style.display='block';
   } else {
-    // decode base64 â†’ blob
+    // decode base64 → blob
     const b64=src.split(',')[1];
     const bytes=atob(b64); const arr=new Uint8Array(bytes.length);
     for(let i=0;i<bytes.length;i++) arr[i]=bytes.charCodeAt(i);
@@ -1751,7 +1751,7 @@ function openEditCert(id,type){
   if(c.thumb){ const cv=document.getElementById('cm-prev-canvas'); cv.style.display='block'; const ctx=cv.getContext('2d'); const img=new Image(); img.onload=()=>{ cv.width=img.width; cv.height=img.height; ctx.drawImage(img,0,0); }; img.src=c.thumb; }
   else if(c.img){ const pi=document.getElementById('cm-prev-img'); pi.src=c.img; pi.style.display='block'; }
   const hasFile=c.pdf||c.img;
-  document.getElementById('cert-upload-lbl').textContent=c.pdf?'PDF uploaded â�““':c.img?'Image uploaded â�““':'Upload image or PDF';
+  document.getElementById('cert-upload-lbl').textContent=c.pdf?'PDF uploaded ✓':c.img?'Image uploaded ✓':'Upload image or PDF';
   document.getElementById('cm-file-clear').style.display=hasFile?'inline-block':'none';
   openModal('cert-modal');
 }
@@ -1773,7 +1773,7 @@ async function handleCertFile(input){
     certFileB64=b64; certFilePdf=isPdf;
     document.getElementById('cm-prev-img').style.display='none';
     document.getElementById('cm-prev-canvas').style.display='none';
-    document.getElementById('cert-upload-lbl').textContent=isPdf?'PDF uploaded â�““':'Image uploaded â�““';
+    document.getElementById('cert-upload-lbl').textContent=isPdf?'PDF uploaded ✓':'Image uploaded ✓';
     document.getElementById('cm-file-clear').style.display='inline-block';
     if(isPdf){
       // render first page to canvas thumbnail
@@ -1837,7 +1837,7 @@ function renderTechExtraSections(){
     const div=document.createElement('div'); div.className='tech-extra-sec'; div.id='tes-'+sec.id;
     // admin bar
     const bar=document.createElement('div'); bar.className='tes-bar';
-    const delBtn=document.createElement('button'); delBtn.className='sec-del-btn'; delBtn.textContent='â�“• Remove Section';
+    const delBtn=document.createElement('button'); delBtn.className='sec-del-btn'; delBtn.textContent='✕ Remove Section';
     delBtn.onclick=()=>deleteTechExtraSection(sec.id); bar.appendChild(delBtn);
     div.appendChild(bar);
     // heading
@@ -1904,7 +1904,7 @@ function makeTpCard(p){
   const barsHtml=(p.skills||[]).slice(0,4).map(s=>`<div class="sbi"><div class="sbl"><span>${esc(s.name)}</span><span>${s.pct}%</span></div><div class="sbt"><div class="sbf" style="width:${s.pct}%"></div></div></div>`).join('');
   card.innerHTML=`
     <div class="tpc-inner" style="position:relative">
-      <div class="drag-handle" title="Drag to reorder" onmousedown="event.stopPropagation()" style="top:.6rem;left:.6rem">â ¿</div>
+      <div class="drag-handle" title="Drag to reorder" onmousedown="event.stopPropagation()" style="top:.6rem;left:.6rem">⠿</div>
       <div class="tpc-img">${imgHtml}</div>
       <div class="tpc-body">
         <div class="tptitle">${esc(p.title||'Untitled')}</div>
@@ -1914,8 +1914,8 @@ function makeTpCard(p){
       </div>
     </div>
     <div class="tpc-btns">
-      <button class="bs" onclick="event.stopPropagation();openEditTp('${p.id}')">â�“ Edit</button>
-      <button class="bs del" onclick="event.stopPropagation();deleteTp('${p.id}')">â�“• Delete</button>
+      <button class="bs" onclick="event.stopPropagation();openEditTp('${p.id}')">✏ Edit</button>
+      <button class="bs del" onclick="event.stopPropagation();deleteTp('${p.id}')">✕ Delete</button>
     </div>`;
   card.onclick=()=>openTpDetail(p.id);
   initCardDrag(card, p.id, 'tech', null);
@@ -1932,7 +1932,7 @@ function openTpDetail(id){
   // recording
   const recWrap=document.getElementById('tpd-rec'); const recVid=document.getElementById('tpd-rec-vid');
   const sndBtn=document.getElementById('tpd-rec-sound');
-  if(p.recording){ recVid.src=p.recording; recVid.load(); recVid.play().catch(()=>{}); recVid.muted=true; sndBtn.textContent='ðŸ”‡'; recWrap.style.display='flex'; }
+  if(p.recording){ recVid.src=p.recording; recVid.load(); recVid.play().catch(()=>{}); recVid.muted=true; sndBtn.textContent='🔇'; recWrap.style.display='flex'; }
   else { recVid.src=''; recWrap.style.display='none'; }
   // image
   const imgBox=document.getElementById('tpd-img'); imgBox.innerHTML='';
@@ -1945,7 +1945,7 @@ function openTpDetail(id){
   requestAnimationFrame(()=>{ document.querySelectorAll('#tpd-skills .sbf').forEach(el=>el.style.transform='scaleX(1)'); });
 }
 function editFromTpDetail(){ if(!currentTpDetail) return; closeModal('tp-detail'); openEditTp(currentTpDetail.id); }
-function toggleTpdSound(){ const v=document.getElementById('tpd-rec-vid'); const btn=document.getElementById('tpd-rec-sound'); if(!v) return; v.muted=!v.muted; btn.textContent=v.muted?'ðŸ”‡':'ðŸ”Š'; }
+function toggleTpdSound(){ const v=document.getElementById('tpd-rec-vid'); const btn=document.getElementById('tpd-rec-sound'); if(!v) return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊'; }
 
 function openAddTp(){ if(!admin) return; editTpId=''; tpImgB64=''; tpRecordingB64=''; tpRecThumbB64=''; clearTpForm(); document.getElementById('tpm-hd').textContent='Add Tech Project'; renderSkillEd([]); openModal('tp-modal'); }
 function openEditTp(id){
@@ -1958,13 +1958,13 @@ function openEditTp(id){
   tpRecordingB64=p.recording||''; tpRecThumbB64=p.recThumbFrame||'';
   if(p.recording){
     const v=document.getElementById('tpm-rec-prev'); v.src=p.recording; v.style.display='block'; v.load();
-    document.getElementById('tpm-rec-lbl').textContent='Recording uploaded â�““';
+    document.getElementById('tpm-rec-lbl').textContent='Recording uploaded ✓';
     document.getElementById('tpm-rec-clear').style.display='inline-block';
     v.onloadedmetadata=()=>{ const sc=document.getElementById('tp-frame-scrubber'); sc.max=v.duration||100; sc.value=0; document.getElementById('tp-frame-picker').style.display='block'; };
     if(p.recThumbFrame){
       const prev=document.getElementById('tp-frame-preview'); prev.src=p.recThumbFrame; prev.style.display='block';
       document.getElementById('tp-frame-clear-btn').style.display='inline-block';
-      document.getElementById('tp-frame-status').textContent='â�““ Frame captured �” used as card thumbnail';
+      document.getElementById('tp-frame-status').textContent='✓ Frame captured �” used as card thumbnail';
     }
   }
   renderSkillEd(p.skills||[]); openModal('tp-modal');
@@ -1988,7 +1988,7 @@ function handleTpRecording(input){
   toB64(input.files[0],b64=>{
     tpRecordingB64=b64;
     const v=document.getElementById('tpm-rec-prev'); v.src=b64; v.style.display='block'; v.load();
-    document.getElementById('tpm-rec-lbl').textContent='Recording uploaded â�““';
+    document.getElementById('tpm-rec-lbl').textContent='Recording uploaded ✓';
     document.getElementById('tpm-rec-clear').style.display='inline-block';
     clearTpFrame();
     document.getElementById('tp-frame-picker').style.display='none';
@@ -2014,7 +2014,7 @@ function captureTpFrame(){
   tpRecThumbB64=c.toDataURL('image/jpeg',0.92);
   const prev=document.getElementById('tp-frame-preview'); prev.src=tpRecThumbB64; prev.style.display='block';
   document.getElementById('tp-frame-clear-btn').style.display='inline-block';
-  document.getElementById('tp-frame-status').textContent='â�““ Frame captured �” used as card thumbnail';
+  document.getElementById('tp-frame-status').textContent='✓ Frame captured �” used as card thumbnail';
 }
 function clearTpFrame(){
   tpRecThumbB64='';
@@ -2025,7 +2025,7 @@ function clearTpFrame(){
 }
 function renderSkillEd(skills){ const se=document.getElementById('skills-ed'); se.innerHTML=''; skills.forEach(s=>se.appendChild(makeSkillRow(s.name,s.pct))); }
 function addSkillRow(){ document.getElementById('skills-ed').appendChild(makeSkillRow('',70)); }
-function makeSkillRow(name,pct){ const r=document.createElement('div'); r.className='sei'; r.innerHTML=`<input placeholder="e.g. Python" value="${esc(name||'')}"><input type="number" min="0" max="100" value="${pct||70}" style="max-width:60px"><button onclick="this.parentElement.remove()">â�“•</button>`; return r; }
+function makeSkillRow(name,pct){ const r=document.createElement('div'); r.className='sei'; r.innerHTML=`<input placeholder="e.g. Python" value="${esc(name||'')}"><input type="number" min="0" max="100" value="${pct||70}" style="max-width:60px"><button onclick="this.parentElement.remove()">✕</button>`; return r; }
 function getSkills(){ return Array.from(document.getElementById('skills-ed').querySelectorAll('.sei')).map(r=>{ const ins=r.querySelectorAll('input'); return {name:ins[0].value.trim(),pct:parseInt(ins[1].value)||0}; }).filter(s=>s.name); }
 function saveTechProj(){
   const title=gv('tpm-title').trim(); if(!title){ alert('Enter a title.'); return; }
@@ -2137,7 +2137,7 @@ function saveAll(){
   saveLabels();
   persist();
   renderContactSocials();
-  const btns=document.querySelectorAll('#adminbanner button'); btns.forEach(b=>{ if(b.textContent.includes('Save')){ const o=b.textContent; b.textContent='â�““ Saved!'; setTimeout(()=>b.textContent=o,1800); } });
+  const btns=document.querySelectorAll('#adminbanner button'); btns.forEach(b=>{ if(b.textContent.includes('Save')){ const o=b.textContent; b.textContent='✓ Saved!'; setTimeout(()=>b.textContent=o,1800); } });
 }
 function adminOnly(fn){ if(admin) fn(); }
 
