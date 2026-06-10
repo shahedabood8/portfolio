@@ -79,8 +79,16 @@ function previewYtUrl(val){
   const id=getYtId(val);
   const box=document.getElementById('yt-preview');
   const frm=document.getElementById('yt-prev-frame');
-  if(id){ frm.src='https://www.youtube.com/embed/'+id+'?rel=0'; box.style.display='block'; }
-  else { frm.src=''; box.style.display='none'; }
+  const portraitCb=document.getElementById('pm-portrait');
+  // auto-detect Shorts
+  const isShort=/youtube\.com\/shorts\//i.test(val);
+  if(portraitCb && isShort) portraitCb.checked=true;
+  const portrait=portraitCb&&portraitCb.checked;
+  if(id){
+    frm.src='https://www.youtube-nocookie.com/embed/'+id+'?rel=0&modestbranding=1';
+    box.style.display='block';
+    box.style.aspectRatio=portrait?'9/16':'16/9';
+  } else { frm.src=''; box.style.display='none'; }
 }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
@@ -527,8 +535,10 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 
 .yt-thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:6px;cursor:pointer;}
 .yt-thumb-wrap img{width:100%;height:100%;object-fit:cover;}
-.dm-yt-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
+.dm-yt-wrap{position:relative;width:100%;background:#000;overflow:hidden;}
 .dm-yt-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.dm-yt-wrap .yt-logo-cover{position:absolute;pointer-events:none;z-index:10;background:#000;bottom:0;right:0;width:130px;height:42px;}
+.dm-yt-wrap .yt-logo-cover-tl{position:absolute;pointer-events:none;z-index:10;background:#000;top:0;left:0;width:90px;height:42px;}
 </style>
 </head>
 <body>
@@ -843,7 +853,14 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
         </div>
       </div>
       <div id="url-area" style="display:none">
-        <input class="fi" id="pm-url" placeholder="Paste any YouTube link (watch, share, unlisted, youtu.be...)" style="margin:0" oninput="previewYtUrl(this.value)"><div id="yt-preview" style="display:none;margin-top:10px;border-radius:8px;overflow:hidden;aspect-ratio:16/9"><iframe id="yt-prev-frame" style="width:100%;height:100%;border:none" allowfullscreen></iframe></div>
+        <input class="fi" id="pm-url" placeholder="Paste any YouTube link (watch, share, unlisted, youtu.be...)" style="margin:0" oninput="previewYtUrl(this.value)">
+        <div style="margin-top:.6rem;display:flex;align-items:center;gap:.5rem">
+          <label style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted);cursor:pointer;user-select:none">
+            <input type="checkbox" id="pm-portrait" style="accent-color:var(--acc);width:14px;height:14px;" onchange="previewYtUrl(document.getElementById('pm-url').value)">
+            <span>Vertical / Portrait video (Shorts, Reels — 9:16)</span>
+          </label>
+        </div>
+        <div id="yt-preview" style="display:none;margin-top:10px;border-radius:8px;overflow:hidden;aspect-ratio:16/9"><iframe id="yt-prev-frame" style="width:100%;height:100%;border:none" allowfullscreen></iframe></div>
       </div>
     </div>
     <div class="fg" style="margin-top:.85rem">
@@ -1447,7 +1464,7 @@ function openDetail(projId,catId){
   document.getElementById('dm-desc').textContent=p.desc||'';
   document.getElementById('dm-tags').innerHTML=(p.tags||[]).map(t=>`<span class="ptag" style="font-size:.75rem">${esc(t)}</span>`).join('');
   const main=document.getElementById('dm-main'); main.innerHTML='';
-  if(p.embedUrl){ const ytId=getYtId(p.embedUrl); const embedSrc=ytId?`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&cc_load_policy=0&playsinline=1&color=white`:p.embedUrl; main.innerHTML=ytId?`<div class="dm-yt-wrap"><iframe src="${embedSrc}" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe></div>`:`<iframe src="${embedSrc}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`; }
+  if(p.embedUrl){ const ytId=getYtId(p.embedUrl); if(ytId){ const portrait=!!p.embedPortrait; const ratio=portrait?'9/16':'16/9'; const embedSrc=`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&cc_load_policy=0&playsinline=1&color=white`; main.innerHTML=`<div class="dm-yt-wrap" style="aspect-ratio:${ratio};max-height:520px;${portrait?'max-width:300px;':'width:100%;'}margin:auto"><iframe src="${embedSrc}" allowfullscreen allow="autoplay; encrypted-media; fullscreen"></iframe><div class="yt-logo-cover"></div><div class="yt-logo-cover-tl"></div></div>`; } else { main.innerHTML=`<iframe src="${p.embedUrl}" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;min-height:300px;border:0"></iframe>`; } }
   else if(p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail))){
     main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔊</button></div>`;
     // Browser allows unmuted autoplay after user interaction (card click)
@@ -1496,7 +1513,7 @@ function openEditProject(id,catId){
   clearProjForm(); document.getElementById('pm-hd').textContent='Edit Project';
   setV('pm-title',p.title||''); setV('pm-desc',p.desc||''); setV('pm-tags',(p.tags||[]).join(', '));
   thumbB64=p.thumbnail||''; thumbFrameB64=p.thumbFrame||'';
-  if(p.embedUrl){ setV('pm-url',p.embedUrl); switchTab('url'); }
+  if(p.embedUrl){ setV('pm-url',p.embedUrl); const pcb=document.getElementById('pm-portrait'); if(pcb) pcb.checked=!!p.embedPortrait; switchTab('url'); previewYtUrl(p.embedUrl); }
   else if(p.thumbnail){
     if(p.thumbnail.startsWith('data:video')){
       const v=document.getElementById('pm-prev-vid'); v.src=p.thumbnail; v.style.display='block'; v.load();
@@ -1527,6 +1544,8 @@ function openEditProject(id,catId){
 }
 function clearProjForm(){
   ['pm-title','pm-desc','pm-tags','pm-url'].forEach(id=>setV(id,''));
+  const pcb=document.getElementById('pm-portrait'); if(pcb) pcb.checked=false;
+  const ytprev=document.getElementById('yt-preview'); if(ytprev) ytprev.style.display='none';
   document.getElementById('pm-prev-img').style.display='none';
   document.getElementById('pm-prev-vid').style.display='none';
   document.getElementById('pm-thumb-clear').style.display='none';
@@ -1546,7 +1565,10 @@ function saveProject(){
     if(!title){ showPmErr('⚠ Please enter a project title.'); document.getElementById('pm-title').focus(); return; }
     const tags=gv('pm-tags').split(',').map(s=>s.trim()).filter(Boolean);
     const rawUrl=gv('pm-url').trim(); const ytId=getYtId(rawUrl); const resolvedEmbed=ytId?'https://www.youtube.com/embed/'+ytId:rawUrl;
-    const p={id:editProjId||'p'+Date.now(),title,desc:gv('pm-desc').trim(),tags,thumbnail:thumbB64,thumbFrame:thumbFrameB64||null,embedUrl:resolvedEmbed,gallery:[...galleryB64],model3d:model3dB64||null,model3dName:model3dName||null};
+    const isShort=/youtube\.com\/shorts\//i.test(rawUrl);
+    const portraitCb=document.getElementById('pm-portrait');
+    const embedPortrait=ytId?(isShort||(portraitCb&&portraitCb.checked)):false;
+    const p={id:editProjId||'p'+Date.now(),title,desc:gv('pm-desc').trim(),tags,thumbnail:thumbB64,thumbFrame:thumbFrameB64||null,embedUrl:resolvedEmbed,embedPortrait:embedPortrait||undefined,gallery:[...galleryB64],model3d:model3dB64||null,model3dName:model3dName||null};
     const cat=data.categories.find(c=>c.id===editProjCat);
     if(!cat){ showPmErr('⚠ Error: category not found. Please close and try again.'); return; }
     if(editProjId){ const i=cat.projects.findIndex(x=>x.id===editProjId); if(i>-1) cat.projects[i]=p; else cat.projects.push(p); }
