@@ -1447,7 +1447,9 @@ function openDetail(projId,catId){
   const main=document.getElementById('dm-main'); main.innerHTML='';
   if(p.embedUrl){ const ytId=getYtId(p.embedUrl); const embedSrc=ytId?`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`:p.embedUrl; main.innerHTML=`<iframe src="${embedSrc}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`; }
   else if(p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail))){
-    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay muted loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔇</button></div>`;
+    main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">🔊</button></div>`;
+    // Browser allows unmuted autoplay after user interaction (card click)
+    setTimeout(()=>{ const v=document.getElementById('dm-vid'); if(v){ v.muted=false; v.play().catch(()=>{ v.muted=true; const b=document.getElementById('dm-vid-sound'); if(b) b.textContent='🔇'; }); } }, 50);
     // start playing
     const v=document.getElementById('dm-vid'); if(v) v.play().catch(()=>{});
   }
