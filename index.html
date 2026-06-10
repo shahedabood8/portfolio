@@ -1326,7 +1326,7 @@ function renderProjectGrid(catId){
 function makeProjectCard(p,catId){
   const card=document.createElement('div'); card.className='pc fade-up'; card.id='pc-'+p.id;
   let media='';
-  if(p.thumbnail&&p.thumbnail.startsWith('data:video')){
+  const _isVid=p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail));if(_isVid){
     if(p.thumbFrame) media=`<img src="${p.thumbFrame}" alt="${esc(p.title)}">`;
     else media=`<video src="${p.thumbnail}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>`;
   }
@@ -1364,7 +1364,7 @@ function openDetail(projId,catId){
   document.getElementById('dm-tags').innerHTML=(p.tags||[]).map(t=>`<span class="ptag" style="font-size:.75rem">${esc(t)}</span>`).join('');
   const main=document.getElementById('dm-main'); main.innerHTML='';
   if(p.embedUrl) main.innerHTML=`<iframe src="${p.embedUrl}" allowfullscreen></iframe>`;
-  else if(p.thumbnail&&p.thumbnail.startsWith('data:video')){
+  else if(p.thumbnail&&(p.thumbnail.startsWith('data:video')||/\.(mp4|webm|ogg)$/i.test(p.thumbnail))){
     main.innerHTML=`<div class="dm-vid-wrap"><video id="dm-vid" src="${p.thumbnail}" autoplay muted loop playsinline controls></video><button class="dm-vid-sound" id="dm-vid-sound" title="Toggle sound" onclick="toggleDmVidSound()">ðŸ”‡</button></div>`;
     // start playing
     const v=document.getElementById('dm-vid'); if(v) v.play().catch(()=>{});
@@ -1372,7 +1372,7 @@ function openDetail(projId,catId){
   else if(p.thumbnail){ const img=document.createElement('img'); img.src=p.thumbnail; img.alt=p.title||''; main.appendChild(img); }
   else main.innerHTML='<span style="color:var(--muted);font-size:.85rem;padding:2rem">No media added yet</span>';
   const gal=document.getElementById('dm-gallery'); gal.innerHTML='';
-  const all=[p.thumbnail,...(p.gallery||[])].filter(Boolean).filter(x=>!x.startsWith('data:video'));
+  const all=[p.thumbnail,...(p.gallery||[])].filter(Boolean).filter(x=>!x.startsWith('data:video')&&!/\.(mp4|webm|ogg)$/i.test(x));
   all.forEach((src,i)=>{
     const img=document.createElement('img'); img.className='dm-gthumb'; img.src=src;
     if(i===0) img.classList.add('active');
