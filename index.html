@@ -21,7 +21,10 @@ async function compressVideoFast(file, onProgress){
       await new Promise((res,rej)=>{ vid.onloadedmetadata=res; vid.onerror=rej; vid.load(); });
       let w=vid.videoWidth, h=vid.videoHeight;
       const MAX=720;
-      if(w>MAX||h>MAX){const r=Math.min(MAX/w,MAX/h);w=Math.floor(w*r/2)*2;h=Math.floor(h*r/2)*2;}
+      // Landscape (w≥h): scale height to MAX → 1920×1080 → 1280×720
+      // Portrait  (h>w): scale width  to MAX → 1080×1920 → 720×1280
+      if(w>=h){if(h>MAX){const r=MAX/h;w=Math.floor(w*r/2)*2;h=MAX;}}
+      else{if(w>MAX){const r=MAX/w;h=Math.floor(h*r/2)*2;w=MAX;}}
       const dur=vid.duration;
       // Decode audio offline — much faster than real-time
       let audioBuffer=null;
@@ -38,9 +41,9 @@ async function compressVideoFast(file, onProgress){
       const muxer=new Muxer(muxCfg);
       // Video encoder
       const vEnc=new VideoEncoder({output:(c,m)=>muxer.addVideoChunk(c,m),error:reject});
-      const vCfg={codec:'vp09.00.31.08',width:w,height:h,bitrate:1000000,framerate:30};
+      const vCfg={codec:'vp09.00.31.08',width:w,height:h,bitrate:1500000,framerate:30};
       const sup=await VideoEncoder.isConfigSupported(vCfg).catch(()=>({supported:false}));
-      vEnc.configure(sup.supported?vCfg:{codec:'vp8',width:w,height:h,bitrate:1000000,framerate:30});
+      vEnc.configure(sup.supported?vCfg:{codec:'vp8',width:w,height:h,bitrate:1500000,framerate:30});
       // Encode all audio (offline — no real-time wait)
       if(audioBuffer){
         const aEnc=new AudioEncoder({output:(c,m)=>muxer.addAudioChunk(c,m),error:e=>console.warn('aEnc:',e)});
@@ -91,7 +94,8 @@ async function compressVideoLegacy(file, onProgress){
       const canvas=document.createElement('canvas');
       let w=video.videoWidth, h=video.videoHeight;
       const MAX=720;
-      if(w>MAX||h>MAX){ const r=Math.min(MAX/w,MAX/h); w=Math.floor(w*r/2)*2; h=Math.floor(h*r/2)*2; }
+      if(w>=h){if(h>MAX){const r=MAX/h;w=Math.floor(w*r/2)*2;h=MAX;}}
+      else{if(w>MAX){const r=MAX/w;h=Math.floor(h*r/2)*2;w=MAX;}}
       canvas.width=w; canvas.height=h;
       const ctx=canvas.getContext('2d');
       const videoStream=canvas.captureStream(30);
@@ -107,7 +111,7 @@ async function compressVideoLegacy(file, onProgress){
       const mimeType=MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
         ?'video/webm;codecs=vp9,opus':MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
         ?'video/webm;codecs=vp9':'video/webm';
-      const recorder=new MediaRecorder(videoStream,{mimeType,videoBitsPerSecond:1000000});
+      const recorder=new MediaRecorder(videoStream,{mimeType,videoBitsPerSecond:1500000});
       const chunks=[];
       recorder.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data);};
       recorder.onstop=()=>{ URL.revokeObjectURL(url); if(audioCtx)audioCtx.close(); resolve(new Blob(chunks,{type:recorder.mimeType})); };
