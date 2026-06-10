@@ -1173,11 +1173,7 @@ if(typeof pdfjsLib !== 'undefined') pdfjsLib.GlobalWorkerOptions.workerSrc = 'ht
 
 // ===== DATA MODEL =====
 const KEY = 'shahad_pf_v3';
-// Password stored as salted SHA-256 — plaintext never appears in source
-const _AH='93ca8d5ad991154952427623c100c01ca50ab2271d19aafa1e33dd171b9347f6';
-const _AS='spf2026_';
-async function _h256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-function _lockMsg(){const t=parseInt(localStorage.getItem('_alk')||'0');if(Date.now()<t){const m=Math.ceil((t-Date.now())/60000);return`Too many attempts. Try again in ${m} minute${m>1?'s':''}.`;}return null;}
+const PASS = 'Shahad@2026';
 const BACKUP_DATA = JSON.parse(`{"hero":{"photo":"media/m1.jpg","photoSize":172,"name":"Shahad Abood","sub":"3D Artist & Motion Designer · IT Automation · CS Graduate","loc":"📍 Dubai, UAE","email":"shahedabood8@gmail.com","li":"https://www.linkedin.com/in/shahed-a-4625b4175/details/certifications/","gh":"https://github.com/shahedabood8"},"nav":{"about":"About","portfolio":"Portfolio","certs":"Certificates","tech":"Tech","contact":"Contact"},"hiddenSections":[],"labels":{"aboutHeading":"About Me","aboutSub":"3D Artist & Motion Designer","certs3dHeading":"Certificates","certs3dSub":"3D Art & design courses","tdivTitle":"Tech Background","tdivSub":"Computer Science · Python · IT Automation","ddivTitle":"3D Design & Animation","ddivSub":"Blender · After Effects · Motion Design","techAboutHeading":"About Me","techAboutSub":"Computer Science Graduate · AUIB 2025","techProjHeading":"Tech Projects","techProjSub":"Python, automation & software development","techCertsHeading":"Tech Certificates","techCertsSub":"Programming & IT courses","contactLabel":"Get In Touch","lpLblDesign":"3D Design & Animation","lpLblTech":"CS / Tech Background"},"stats":{"enabled":false,"items":[]},"contact":{"name":"Shahad Abood","loc":"📍 Dubai, UAE","email":"shahedabood8@gmail.com","phone":"+971 52 258 2135","note":"","footerCopy":"Shahad Abood · Dubai, UAE","hidden":["note"]},"about":{"photo":"media/m2.jpg","heroBio":"Computer Science graduate from AUIB (2025), based in Dubai — passionate about creating impactful experiences at the intersection of art and technology.","bio":"3D Artist and Motion Designer with a background in Computer Science, specializing in product visualization, stylized assets, and digital content creation using Blender and Adobe Creative Suite. Experienced in producing engaging visuals for social media and promotional campaigns, with a strong focus on storytelling, aesthetics, and performance optimization. Collaborative and adaptable, with experience working with remote teams across diverse industries.","tags":["Blender","After Effects","Photoshop","Unreal Engine","3D Modeling","UV Mapping & Texturing","Product Visualization","Motion Design","VFX","Social Media Content","Visual Storytelling","Brand Design"]},"categories":[{"id":"vfx","label":"VFX Projects","sub":"Visual effects — Blender, Fspy, After Effects","projects":[{"id":"p1781045998541","title":"VFX astronaut on office","desc":"I created this simple VFX video for my social media platforms, it was a trial for VFX Art in blender, I modeled this Low-Poly astronaut rigged it, composited it, animated it and rendered it all in blender  .","tags":["Blender","VFX","3D"],"thumbnail":"media/m3.mp4","thumbFrame":"media/m4.jpg","embedUrl":"","gallery":[],"model3d":null,"model3dName":null}]},{"id":"product","label":"3D Product Animation","sub":"Product visualization & commercial animation","projects":[{"id":"p1781027924431","title":"Daisy Blusher","desc":"Made simple motion to the bottle and make it fall into the golden stand in the golden studio, have it filled with the blusher liquid, used the liquid effect in blender to make a dreamy motion. Lastly make it covered with the brush bottle cover.\n“the design is by Daisy by Jasmine brand.\nThe logo is not the brand logo because it is not a collaboration “\nThe final shot is inspired by the color of the blush, I added a liquid blush lake “added a simulation”\nthen added beautiful Dhalias and hanging flowers that has the same color as the blusher","tags":["Blender","3D Animation","3D Product Modeling & Animation"],"thumbnail":"media/m5.mp4","thumbFrame":"media/m6.jpg","embedUrl":"","gallery":["media/m7.png","media/m8.png"],"model3d":null,"model3dName":null},{"id":"p1781027338917","title":"Bosidin Laser Hair Removal","desc":"This commercial implies both luxury and speed, I tried to add lights and flashed to resemble the idea of the product, it is like both femininity, smoothness and efficiency at the same time. I paid attention to the model details very well, and the element are simple to make the focus on the product details, added smooth and fast motions and the same time for both the product and the camera.","tags":["Blender","3D Design","3D Animation","3D Product Modeling & Animation"],"thumbnail":"media/m9.mp4","embedUrl":"","gallery":["media/m10.png","media/m11.png","media/m12.png"],"model3d":null,"model3dName":null},{"id":"p1781028464446","title":"Mina Al Sheikhly Mascara Comercial","desc":"The animation opens with a stylized graphic eye element that dynamically transitions to open the blurred glass door to reveal a metallic, turquoise mascara tube floating against a moody, dark background. Utilizing dramatic macro close-ups and smooth camera tracking, the video highlights the sleek product design, glossy textures, and precise branding before executing a clean mechanical separation to reveal the mascara wand and brush.","tags":["Blender","3D Animation","3D Art","3D Product Animation","3D Modeling"],"thumbnail":"media/m13.mp4","thumbFrame":"media/m14.jpg","embedUrl":"","gallery":["media/m15.png"],"model3d":null,"model3dName":null}]},{"id":"stylized","label":"Stylized Projects","sub":"Stylized 3D art, environments & game assets","projects":[{"id":"p1781028958628","title":"Stylized Halloween Environment","desc":"Halloween-themed loop that blends spooky elements with a playful, low-poly aesthetic. The video opens with a close-up of smoke rising from the chimney of a house with a red-tiled roof, before zooming out to reveal a miniature, fenced-in home situated on a surreal, warped black-and-white checkered landscape. The scene is filled with festive animations, including a classic sheet ghost floating down a wooden path, a skeleton sitting by a fence, and multiple glowing, animated jack-o'-lanterns scattered throughout the yard.","tags":["Blender","Low-Poly","3D Design","3D Art","3D Stylized Modeling & Animation"],"thumbnail":"media/m16.mp4","thumbFrame":"media/m17.jpg","embedUrl":"","gallery":[],"model3d":null,"model3dName":null}]}],"certs3d":[{"id":"c1","name":"The Magic of VFX in Blender","issuer":"Supernova Academy","status":"Ongoing","img":null,"pdf":null,"thumb":null},{"id":"c3","name":"3D Product Modeling & Animation","issuer":"Supernova Academy","status":"Completed","img":"media/m18.png","pdf":null,"thumb":null},{"id":"c4","name":"Illustrating with the Grease Pencil","issuer":"Udemy","status":"Completed","img":null,"pdf":"media/m19.pdf","thumb":"media/m20.jpg"}],"tech":{"gradPhoto":"media/m21.jpg","bio":"Computer Science Graduate from the American University of Iraq – Baghdad (AUIB, December 2025), proficient in Python for automation and scripting, with academic and practical project experience across C++, C#, and Dart. Experienced in collaborating with multidisciplinary, fast-paced teams and applying technical skills to optimize workflows and solve logic problems. Fluent in English and Arabic (Levantine and Iraqi dialects).","tags":["Python","C++","C#","Dart / Flutter","OOP & Data Structures","Algorithms","Git / GitHub","Linux / Ubuntu","IT Automation","Pytest"],"projects":[{"id":"tp1781038836964","title":"ChessAi","desc":"The player will play with an AI agent chess games.","github":"https://github.com/shahedabood8/ChessAi","img":"","recording":"media/m22.mp4","recThumbFrame":"media/m23.jpg","skills":[{"name":"Python","pct":100}]},{"id":"tp1781043023498","title":"AI-Resume-Critique-","desc":"Ai agent that tells you how to improve your resume after you upload it, there is an option that let you input the job that you are applying for.","github":"https://github.com/shahedabood8/AI-Resume-Critique-","img":"","recording":"media/m24.mp4","recThumbFrame":"media/m25.jpg","skills":[{"name":"Python","pct":100}]}],"certs":[{"id":"tc1","name":"IT Automation with Python","issuer":"Google / Coursera","status":"Ongoing","img":null,"pdf":null,"thumb":null},{"id":"tc4","name":"One Million Prompters Initiative","issuer":"DUBAI FUTURE FOUNDATION","status":"Certificate of Appreciation  2025","img":null,"pdf":"media/m26.pdf","thumb":"media/m27.jpg"},{"id":"c1781035129457","name":"Programming for Everyone (Getting Started With Python)","issuer":"University of Michigan / Coursera","status":"Completed  2026","img":null,"pdf":"media/m28.pdf","thumb":"media/m29.jpg"}],"extraSections":[{"id":"tes1781034537199","label":"Community Programs","sub":"Programs that develop your soft skills mainly, such as Team Collaboration, Time Management, Sustainability, Project Management.","certs":[{"id":"c1781034678539","name":"OML Program 2026","issuer":"OML Program","status":"Ongoing","img":null,"pdf":null,"thumb":null},{"id":"c1781034794534","name":"McKinsey Forward Program","issuer":"McKinsey & Company","status":"Completed 2024","img":null,"pdf":"media/m30.pdf","thumb":"media/m31.jpg"}]}]}}`);
 
 
@@ -1263,11 +1259,7 @@ window.onload = async ()=>{
   } catch(e){}
   renderAll();
   initObserver();
-  if(sessionStorage.getItem('sa_admin')==='1'){
-    const exp=parseInt(sessionStorage.getItem('sa_exp')||'0');
-    if(Date.now()<exp){ admin=true; applyAdmin(); }
-    else { sessionStorage.removeItem('sa_admin'); sessionStorage.removeItem('sa_exp'); }
-  }
+  if(sessionStorage.getItem('sa_admin')==='1'){ admin=true; applyAdmin(); }
   window.addEventListener('scroll',()=>{ document.getElementById('main-nav').classList.toggle('scrolled',scrollY>20); });
 };
 
@@ -2304,36 +2296,12 @@ function showImg(imgId,phId,src){ const img=document.getElementById(imgId),ph=do
 
 // ===== ADMIN =====
 function toggleAdmin(){ if(admin) logoutAdmin(); else { openModal('login-modal'); setTimeout(()=>document.getElementById('pw-in').focus(),100); } }
-async function doLogin(){
-  const errEl=document.getElementById('login-err');
-  const setErr=msg=>{errEl.textContent=msg;errEl.style.display='block';};
-  // Check lockout first
-  const locked=_lockMsg();
-  if(locked){setErr(locked);return;}
-  const pw=document.getElementById('pw-in').value;
-  if(!pw){setErr('Enter your password.');return;}
-  const hash=await _h256(_AS+pw);
-  if(hash===_AH){
-    admin=true;
-    sessionStorage.setItem('sa_admin','1');
-    sessionStorage.setItem('sa_exp',String(Date.now()+4*60*60*1000));
-    localStorage.removeItem('_aat'); localStorage.removeItem('_alk');
-    closeModal('login-modal');
-    document.getElementById('pw-in').value='';
-    errEl.textContent='Incorrect password.'; errEl.style.display='none';
-    applyAdmin();
-  } else {
-    let att=parseInt(localStorage.getItem('_aat')||'0')+1;
-    if(att>=5){
-      localStorage.setItem('_alk',String(Date.now()+10*60*1000));
-      localStorage.removeItem('_aat');
-      setErr('Too many failed attempts. Locked for 10 minutes.');
-    } else {
-      localStorage.setItem('_aat',String(att));
-      const left=5-att;
-      setErr(`Incorrect password — ${left} attempt${left===1?'':'s'} remaining.`);
-    }
-  }
+function doLogin(){
+  if(document.getElementById('pw-in').value===PASS){
+    admin=true; sessionStorage.setItem('sa_admin','1');
+    closeModal('login-modal'); document.getElementById('pw-in').value='';
+    document.getElementById('login-err').style.display='none'; applyAdmin();
+  } else { document.getElementById('login-err').style.display='block'; }
 }
 function logoutAdmin(){
   admin=false; sessionStorage.removeItem('sa_admin');
