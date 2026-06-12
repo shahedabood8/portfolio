@@ -239,12 +239,28 @@ nav.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}
 .nl a.contact-link{color:var(--acc2);border:1px solid rgba(20,184,166,.35);border-radius:999px;padding:.2rem .75rem;font-size:.78rem}
 .nl a.contact-link:hover{background:var(--glow2);border-color:var(--acc2)}
 .nl a.contact-link::after{display:none}
+/* dropdown nav */
+.nav-dd{position:relative}
+.nav-dd .nav-dd-top::after{display:none}
+.nav-caret{font-size:.6rem;margin-left:.3rem;color:var(--muted);transition:transform .2s}
+.nav-dd:hover .nav-caret{transform:rotate(180deg);color:var(--acc2)}
+.nav-sub{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:.55rem;list-style:none;z-index:200;margin:0}
+.nav-dd:hover .nav-sub{display:block}
+.nav-sub li{background:rgba(12,12,20,.97);border-left:1px solid var(--brd);border-right:1px solid var(--brd);padding:.5rem 1.1rem;white-space:nowrap}
+.nav-sub li:first-child{border-top:1px solid var(--brd);border-radius:10px 10px 0 0;padding-top:.65rem}
+.nav-sub li:last-child{border-bottom:1px solid var(--brd);border-radius:0 0 10px 10px;padding-bottom:.65rem}
+.nav-sub a{font-size:.8rem}
+.nav-sub a::after{display:none}
+.admin-mode .nav-sub{display:block}
 .nav-lbl{display:inline-block;min-width:4px}
 .admin-mode .nav-lbl[contenteditable=true]{outline:1px dashed rgba(139,92,246,.4);border-radius:3px;padding:1px 4px;cursor:text}
 .admin-mode .nav-lbl[contenteditable=true]:focus{outline:1px solid var(--acc)}
 .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hbg span{width:22px;height:2px;background:var(--muted);border-radius:2px;transition:.3s}
-@media(max-width:700px){.nl{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:rgba(12,12,20,.97);border-bottom:1px solid var(--brd);padding:1rem 2rem;gap:1rem}.nl.open{display:flex}.hbg{display:flex}}
+@media(max-width:700px){.nl{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:rgba(12,12,20,.97);border-bottom:1px solid var(--brd);padding:1rem 2rem;gap:1rem}.nl.open{display:flex}.hbg{display:flex}
+.nav-sub{display:block;position:static;transform:none;padding:.5rem 0 0 1.1rem}
+.nav-sub li,.nav-sub li:first-child,.nav-sub li:last-child{background:transparent;border:0;border-radius:0;padding:.35rem 0}
+.nav-caret{display:none}}
 
 /* STATS BAR */
 #stats-wrap{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(20,184,166,.06));border-top:1px solid var(--brd);border-bottom:1px solid var(--brd)}
@@ -669,10 +685,23 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <span class="nb" onclick="scrollTo(0,0)">SA</span>
   <div class="hbg" onclick="document.getElementById('nl').classList.toggle('open')"><span></span><span></span><span></span></div>
   <ul class="nl" id="nl">
-    <li><a href="#about" onclick="this.closest('.nl').classList.remove('open');navGo('about');return false"><span class="nav-lbl" id="nl-about" contenteditable="false">About</span></a></li>
-    <li><a href="#portfolio" onclick="this.closest('.nl').classList.remove('open');navGo('portfolio');return false"><span class="nav-lbl" id="nl-portfolio" contenteditable="false">Portfolio</span></a></li>
-    <li><a href="#certs3d" onclick="this.closest('.nl').classList.remove('open');navGo('certs3d');return false"><span class="nav-lbl" id="nl-certs" contenteditable="false">Certificates</span></a></li>
-    <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech');return false"><span class="nav-lbl" id="nl-tech" contenteditable="false">Tech</span></a></li>
+    <li class="nav-dd">
+      <a href="#" class="nav-dd-top" onclick="return false"><span class="nav-lbl" id="nl-design" contenteditable="false">3D Art</span><span class="nav-caret">▾</span></a>
+      <ul class="nav-sub">
+        <li><a href="#about" onclick="this.closest('.nl').classList.remove('open');navGo('about');return false"><span class="nav-lbl" id="nl-about" contenteditable="false">About</span></a></li>
+        <li><a href="#portfolio" onclick="this.closest('.nl').classList.remove('open');navGo('portfolio');return false"><span class="nav-lbl" id="nl-portfolio" contenteditable="false">Portfolio</span></a></li>
+        <li><a href="#certs3d" onclick="this.closest('.nl').classList.remove('open');navGo('certs3d');return false"><span class="nav-lbl" id="nl-certs" contenteditable="false">Certificates</span></a></li>
+      </ul>
+    </li>
+    <li class="nav-dd">
+      <a href="#" class="nav-dd-top" onclick="return false"><span class="nav-lbl" id="nl-tech" contenteditable="false">Tech</span><span class="nav-caret">▾</span></a>
+      <ul class="nav-sub">
+        <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech');return false"><span class="nav-lbl" id="nl-tech-about" contenteditable="false">About</span></a></li>
+        <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech-proj-heading');return false"><span class="nav-lbl" id="nl-tech-proj" contenteditable="false">Projects</span></a></li>
+        <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech-certs-heading');return false"><span class="nav-lbl" id="nl-tech-certs" contenteditable="false">Certificates</span></a></li>
+        <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech-extra-sections');return false"><span class="nav-lbl" id="nl-tech-comm" contenteditable="false">Community Programs</span></a></li>
+      </ul>
+    </li>
     <li><a href="#contact" class="contact-link" onclick="this.closest('.nl').classList.remove('open');navGo('contact');return false"><span class="nav-lbl" id="nl-contact" contenteditable="false">Contact</span></a></li>
   </ul>
 </nav>
@@ -1327,8 +1356,13 @@ function showSection(id){
 function renderNav(){
   if(!data.nav) data.nav={about:'About',portfolio:'Portfolio',certs:'Certificates',tech:'Tech',contact:'Contact'};
   const n=data.nav;
+  setText('nl-design',n.design||'3D Art');
   setText('nl-about',n.about); setText('nl-portfolio',n.portfolio);
   setText('nl-certs',n.certs); setText('nl-tech',n.tech); setText('nl-contact',n.contact);
+  setText('nl-tech-about',n.techAbout||'About');
+  setText('nl-tech-proj',n.techProj||'Projects');
+  setText('nl-tech-certs',n.techCerts||'Certificates');
+  setText('nl-tech-comm',n.techComm||'Community Programs');
 }
 
 // ===== STATS =====
@@ -2324,7 +2358,7 @@ function logoutAdmin(){
   document.body.classList.remove('admin-mode'); document.getElementById('at').classList.remove('on');
   const ctrl=document.getElementById('photo-size-ctrl'); if(ctrl) ctrl.style.display='none';
   ['hname','hsub','hloc','hero-bio','about-bio','tech-bio'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='false'; });
-  ['nl-about','nl-portfolio','nl-certs','nl-tech','nl-contact'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='false'; });
+  ['nl-design','nl-about','nl-portfolio','nl-certs','nl-tech','nl-contact','nl-tech-about','nl-tech-proj','nl-tech-certs','nl-tech-comm'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='false'; });
   ['c-name','c-loc','c-email','c-phone','c-note','footer-copy'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='false'; });
   const b2=document.getElementById('stats-toggle-btn2'); if(b2) b2.style.display='none';
   (data.stats&&data.stats.items||[]).forEach(s=>{ const sv=document.getElementById('sv-'+s.id); if(sv) sv.contentEditable='false'; const sl=document.getElementById('sl-'+s.id); if(sl) sl.contentEditable='false'; });
@@ -2352,7 +2386,7 @@ function applyAdmin(){
   // hero + bios
   ['hname','hsub','hloc','hero-bio','about-bio','tech-bio'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='true'; });
   // nav labels
-  ['nl-about','nl-portfolio','nl-certs','nl-tech','nl-contact'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='true'; });
+  ['nl-design','nl-about','nl-portfolio','nl-certs','nl-tech','nl-contact','nl-tech-about','nl-tech-proj','nl-tech-certs','nl-tech-comm'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='true'; });
   // contact section
   ['c-name','c-loc','c-email','c-phone','c-note','footer-copy'].forEach(id=>{ const el=document.getElementById(id); if(el) el.contentEditable='true'; });
   // show stats toggle
@@ -2379,6 +2413,7 @@ function saveAll(){
   // nav labels
   if(!data.nav) data.nav={};
   ['about','portfolio','certs','tech','contact'].forEach(k=>{ const el=document.getElementById('nl-'+k); if(el) data.nav[k]=el.textContent.trim(); });
+  [['nl-design','design'],['nl-tech-about','techAbout'],['nl-tech-proj','techProj'],['nl-tech-certs','techCerts'],['nl-tech-comm','techComm']].forEach(([id,k])=>{ const el=document.getElementById(id); if(el) data.nav[k]=el.textContent.trim(); });
   // about + tech bios
   data.about.bio=document.getElementById('about-bio').textContent;
   const hb=document.getElementById('hero-bio'); if(hb) data.about.heroBio=hb.textContent.trim();
@@ -2435,7 +2470,7 @@ function switchSection(which){
 // Nav links: open the section that contains the target, then scroll to it
 function navGo(id){
   const inDesign = ['about','portfolio','certs3d'].includes(id);
-  const inTech = id === 'tech';
+  const inTech = ['tech','tech-proj-heading','tech-certs-heading','tech-extra-sections'].includes(id);
   const wrap = inDesign ? document.getElementById('design-content')
              : inTech ? document.getElementById('tech-content') : null;
   if(wrap && wrap.style.display === 'none'){
