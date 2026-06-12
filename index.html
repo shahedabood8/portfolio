@@ -669,11 +669,11 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
   <span class="nb" onclick="scrollTo(0,0)">SA</span>
   <div class="hbg" onclick="document.getElementById('nl').classList.toggle('open')"><span></span><span></span><span></span></div>
   <ul class="nl" id="nl">
-    <li><a href="#about" onclick="this.closest('.nl').classList.remove('open')"><span class="nav-lbl" id="nl-about" contenteditable="false">About</span></a></li>
-    <li><a href="#portfolio" onclick="this.closest('.nl').classList.remove('open')"><span class="nav-lbl" id="nl-portfolio" contenteditable="false">Portfolio</span></a></li>
-    <li><a href="#certs3d" onclick="this.closest('.nl').classList.remove('open')"><span class="nav-lbl" id="nl-certs" contenteditable="false">Certificates</span></a></li>
-    <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open')"><span class="nav-lbl" id="nl-tech" contenteditable="false">Tech</span></a></li>
-    <li><a href="#contact" class="contact-link" onclick="this.closest('.nl').classList.remove('open')"><span class="nav-lbl" id="nl-contact" contenteditable="false">Contact</span></a></li>
+    <li><a href="#about" onclick="this.closest('.nl').classList.remove('open');navGo('about');return false"><span class="nav-lbl" id="nl-about" contenteditable="false">About</span></a></li>
+    <li><a href="#portfolio" onclick="this.closest('.nl').classList.remove('open');navGo('portfolio');return false"><span class="nav-lbl" id="nl-portfolio" contenteditable="false">Portfolio</span></a></li>
+    <li><a href="#certs3d" onclick="this.closest('.nl').classList.remove('open');navGo('certs3d');return false"><span class="nav-lbl" id="nl-certs" contenteditable="false">Certificates</span></a></li>
+    <li><a href="#tech" onclick="this.closest('.nl').classList.remove('open');navGo('tech');return false"><span class="nav-lbl" id="nl-tech" contenteditable="false">Tech</span></a></li>
+    <li><a href="#contact" class="contact-link" onclick="this.closest('.nl').classList.remove('open');navGo('contact');return false"><span class="nav-lbl" id="nl-contact" contenteditable="false">Contact</span></a></li>
   </ul>
 </nav>
 
@@ -2430,6 +2430,20 @@ function switchSection(which){
   setTimeout(()=>show.classList.remove('lp-section-anim'),600);
   setTimeout(()=>{ show.scrollIntoView({behavior:'smooth',block:'start'}); },60);
   initObserver();
+}
+
+// Nav links: open the section that contains the target, then scroll to it
+function navGo(id){
+  const inDesign = ['about','portfolio','certs3d'].includes(id);
+  const inTech = id === 'tech';
+  const wrap = inDesign ? document.getElementById('design-content')
+             : inTech ? document.getElementById('tech-content') : null;
+  if(wrap && wrap.style.display === 'none'){
+    switchSection(inDesign ? 'design' : 'tech');
+    setTimeout(()=>{ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }, 150);
+  } else {
+    document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 
 // ===== EXPORT / IMPORT =====
