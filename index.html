@@ -710,6 +710,7 @@ video.ua-prev{max-width:100%;max-height:60vh;width:auto;height:auto;display:bloc
 <div id="adminbanner">
   <span>✏ Admin Mode</span>
   <button onclick="saveAll()">💾 Save All</button>
+  <button onclick="publishSite(this)">🌍 Publish</button>
   <button class="teal" onclick="exportData()">⬇ Export Backup</button>
   <button class="teal" onclick="document.getElementById('import-in').click()">⬆ Import Backup</button>
   <input type="file" id="import-in" accept=".json" style="display:none" onchange="importData(this)">
@@ -1279,7 +1280,23 @@ let certFileB64 = '', certFilePdf = false, certFileThumb = '';
 let editProjCat = '', editProjId = '', editTpId = '', editCertType = '', editCertId = '';
 
 function persist(){
+  data.updatedAt = Date.now();
   localforage.setItem(KEY, data).catch(e=>{ alert('Storage error: '+e.message); });
+}
+
+// Keep browser-tab title + share metadata in sync with the hero name
+function syncTitle(){
+  const name = (data.hero && data.hero.name || 'Shahad Abood').trim();
+  const t = name + ' — Portfolio';
+  document.title = t;
+  const set=(sel,v)=>{ const m=document.querySelector(sel); if(m) m.setAttribute('content',v); };
+  set('meta[property="og:title"]', t);
+  set('meta[name="twitter:title"]', t);
+  if(data.hero && data.hero.sub){
+    set('meta[property="og:description"]', data.hero.sub);
+    set('meta[name="twitter:description"]', data.hero.sub);
+    set('meta[name="description"]', name+' — '+data.hero.sub);
+  }
 }
 
 // ===== INIT =====
@@ -1293,14 +1310,23 @@ window.onload = async ()=>{
       localStorage.removeItem(KEY);
     }
   } catch(e){}
-  // load from IndexedDB; if empty (first visit on deployed site), fetch backup.json
+  // load: compare local edits (IndexedDB) vs published data.json — newest wins
   try {
     let saved = await localforage.getItem(KEY);
-    if(!saved || !(saved.categories||[]).reduce((a,c)=>a+(c.projects||[]).length,0)){
-      saved = JSON.parse(JSON.stringify(BACKUP_DATA));
-      await localforage.setItem(KEY, saved);
+    let remote = null;
+    try {
+      const r = await fetch('data.json?t='+Date.now(), {cache:'no-store'});
+      if(r.ok) remote = await r.json();
+    } catch(e){}
+    const ts = d => (d && d.updatedAt) || 0;
+    let best;
+    if(remote && saved) best = ts(remote) >= ts(saved) ? remote : saved;
+    else best = remote || saved;
+    if(!best || !(best.categories||[]).reduce((a,c)=>a+(c.projects||[]).length,0)){
+      best = JSON.parse(JSON.stringify(BACKUP_DATA));
     }
-    if(saved) data = mergeData(defaultData(), saved);
+    await localforage.setItem(KEY, best);
+    data = mergeData(defaultData(), best);
   } catch(e){}
   renderAll();
   initObserver();
@@ -1319,6 +1345,7 @@ function saveLabels(){
   LABEL_IDS.forEach((id,i)=>{ const el=document.getElementById(id); if(el) data.labels[LABEL_KEYS[i]]=el.textContent.trim(); });
 }
 function renderAll(){
+  syncTitle();
   renderNav(); renderHero(); renderStats(); renderAbout();
   renderCategories(); renderCerts('3d'); renderTech(); renderContact();
   renderLabels(); applySectionVisibility();
@@ -2436,10 +2463,76 @@ function saveAll(){
   (data.tech.extraSections||[]).forEach(sec=>{ const l=document.getElementById('tes-lbl-'+sec.id); if(l) sec.label=l.textContent.trim(); const s=document.getElementById('tes-sub-'+sec.id); if(s) sec.sub=s.textContent.trim(); });
   saveLabels();
   persist();
+  syncTitle();
   renderContactSocials();
   const btns=document.querySelectorAll('#adminbanner button'); btns.forEach(b=>{ if(b.textContent.includes('Save')){ const o=b.textContent; b.textContent='✓ Saved!'; setTimeout(()=>b.textContent=o,1800); } });
 }
 function adminOnly(fn){ if(admin) fn(); }
+
+// ===== PUBLISH TO ALL DEVICES (writes data.json to the GitHub repo) =====
+async function publishSite(btn){
+  let token = localStorage.getItem('gh_token');
+  if(!token){
+    token = prompt('One-time setup: paste your GitHub token (it stays only on this device).\n\nCreate one at github.com/settings/tokens — classic token with "repo" scope.');
+    if(!token) return;
+    token = token.trim();
+    localStorage.setItem('gh_token', token);
+  }
+  const repo = 'shahedabood8/portfolio';
+  const hdr = {'Authorization':'Bearer '+token, 'Accept':'application/vnd.github+json'};
+  const b64 = s => {
+    const bytes = new TextEncoder().encode(s);
+    let bin = '';
+    for(let i=0; i<bytes.length; i+=0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i+0x8000));
+    return btoa(bin);
+  };
+  const orig = btn ? btn.textContent : '';
+  if(btn){ btn.textContent = '⏳ Publishing…'; btn.disabled = true; }
+  try {
+    saveAll();
+    data.updatedAt = Date.now();
+    await localforage.setItem(KEY, data);
+    // 1) publish data.json
+    let sha = null;
+    try {
+      const g = await fetch(`https://api.github.com/repos/${repo}/contents/data.json`, {headers: hdr});
+      if(g.ok) sha = (await g.json()).sha;
+      else if(g.status === 401 || g.status === 403){ localStorage.removeItem('gh_token'); throw new Error('Token rejected — click Publish again and paste a new token.'); }
+    } catch(e){ if(String(e.message).includes('Token')) throw e; }
+    const put = await fetch(`https://api.github.com/repos/${repo}/contents/data.json`, {
+      method: 'PUT', headers: hdr,
+      body: JSON.stringify({message: 'Publish portfolio data from admin', content: b64(JSON.stringify(data)), ...(sha ? {sha} : {})})
+    });
+    if(!put.ok){
+      if(put.status === 401 || put.status === 403) localStorage.removeItem('gh_token');
+      throw new Error('GitHub error ' + put.status + ' — check the token has "repo" access.');
+    }
+    // 2) update tab title + share title inside index.html if the name changed
+    try {
+      const gi = await fetch(`https://api.github.com/repos/${repo}/contents/index.html`, {headers: hdr});
+      if(gi.ok){
+        const j = await gi.json();
+        const html = new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,'')), c => c.charCodeAt(0)));
+        const t = ((data.hero&&data.hero.name)||'Shahad Abood').trim() + ' — Portfolio';
+        const esc = t.replace(/\$/g,'$$$$');
+        let nh = html.replace(/<title>[^<]*<\/title>/, '<title>'+esc+'</title>');
+        nh = nh.replace(/(property="og:title" content=")[^"]*(")/, '$1'+esc+'$2');
+        nh = nh.replace(/(name="twitter:title" content=")[^"]*(")/, '$1'+esc+'$2');
+        if(nh !== html){
+          await fetch(`https://api.github.com/repos/${repo}/contents/index.html`, {
+            method: 'PUT', headers: hdr,
+            body: JSON.stringify({message: 'Update page title from admin', content: b64(nh), sha: j.sha})
+          });
+        }
+      }
+    } catch(e){ /* title update is best-effort */ }
+    alert('✅ Published! All devices will see the changes in about a minute.\n(On your phone, just refresh the page.)');
+  } catch(e){
+    alert('Publish failed: ' + e.message);
+  } finally {
+    if(btn){ btn.textContent = orig; btn.disabled = false; }
+  }
+}
 
 // ===== LANDING PAGE SECTION SWITCH =====
 let activeSection = '';
